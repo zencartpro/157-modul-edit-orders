@@ -1,0 +1,114 @@
+Edit Orders 4.6.2 für Zen Cart 1.5.7 deutsch
+
+Mit dieser Erweiterung können Bestellungen nachträglich bearbeitet werden.
+z.B.
+zusätzliche Artikel zu einer Bestellung hinzufügen
+Anzahl eines bestellen Artikels ändern
+Preis eines bestellten Artikels ändern
+Attribute eines bestellten Artikels ändern
+Versandart / Versandkosten einer Bestellung ändern
+Aktionskupons/Gutscheine hinzufügen
+
+
+Dieses Modul keinesfalls direkt in einem Liveshop einbauen!
+Erst in einem Testshop die Änderungsfunktionen testen und dann entscheiden, welche davon überhaupt für den Shop sinnvoll verwendbar sind.
+
+Generell:
+Nach Integration dieses Moduls steht bei den Bestellungen zusätzlich zum "normalen" Button "Details" ein neuer Button "Mit Edit Orders Bearbeiten" zur Verfügung.
+Wenn eine Bestellung wie bisher ganz normal bearbeitet werden soll (z.B. um sie auf versendet zu stellen), dann immer den normalen Button Details verwenden.
+Wenn Sie nur die Adressdaten einer Bestellung ändern wollen, dann ebenfalls nicht Edit Orders verwenden, sondern die ganz normale Adresskorrektur!
+"Mit Edit Orders Bearbeiten" nur dann verwenden, wenn an der Bestellung wirklich etwas grundlegend geändert werden soll!
+
+Die Steuerberechnung wurde seit Version 4.5.1 völlig neu gestaltet und gegenüber früheren Versionen ständig verbessert.
+Dennoch:
+Die besten Ergebnisse im Hinblick auf eine korrekte Steuerausweisung werden dann erreicht, wenn es keine unterschiedlichen Steuersätze bei den Artikeln gibt und wenn es sich um einen B2B Shop handelt (Shop verwendet Nettopreise)
+Eine 100% korrekte Steuerausweisung bei geänderten Bestellungen in anderen Szenarien kann nicht garantiert werden, daher dieses Modul unbedingt erst in einem Testshop auf Eignung für den eigenen Shop überprüfen!
+Version 4.6.2 sollte aber in den meisten Szenarien korrekte Steuerausweisung nach Bestelländerung liefern.
+
+Seit Version 4.6.2 ist lediglich die Änderung nur noch einer einzigen Datei erforderlich, alles andere wird mit Observern gelöst, so dass die Installation sehr einfach ist.
+
+
+INSTALLATION
+
+Für den Einbau dieses Moduls sollten Sie über folgende Werkzeuge verfügen:
+
+1) Ein guter Texteditor
+Damit ist nicht das in Windows enthaltene Notepad oder Microsoft Word gemeint.
+Sie benötigen einen Texteditor, der utf-8 versteht und auch im Format utf-8 ohne BOM abspeichern kann.
+Meine Empfehlung: UltraEdit (kostenlose 30 Tage Testversion verfügbar)
+Ebenfalls gut geeignet ist der kostenlose Texteditor Notepad++
+
+2) Ein Tool zum Vergleichen von Dateien
+Bei der Installation dieses Moduls ist es erforderlich, dass Sie den Inhalt einer Ihrer bestehenden Zen Cart Dateien mit dem Inhalt der neuen Moduldatei vergleichen und die Änderungen zusammenführen ("mergen").
+Meine Empfehlung: BeyondCompare (kostenlose 30 Tage Testversion verfügbar)
+Ebenfalls gut geeignet ist das kostenlose Programm WinMerge
+
+Empfehlung:
+Dieses Modul erst in einem Testsystem einbauen und dort konfigurieren/testen und endgültig an die eigenen Wünsche anpassen. Erst dann in einem Liveshop einsetzen! Sichern Sie unbedingt alle Dateien Ihres Shops per FTP und sichern Sie die Datenbank mit phpMyAdmin oder anderen geeigneten Tools!
+
+
+1)
+Geänderte Dateien des Moduls einspielen:
+Im Ordner GEAENDERTE DATEIEN finden Sie die einzige Datei, die von diesem Modul geändert wird:
+includes/modules/order_total/ot_tax.php
+Sollten Sie bereits einmal Änderungen an dieser Dateien vorgenommen haben (z.B. durch den Einbau anderer Erweiterungen), dann laden Sie dies Datei keinesfalls einfach so hoch.
+Stattdessen vergleichen Sie sie mit der entsprechenden Datei in Ihrem Shop und nehmen Sie die Änderungen manuell per WinMerge oder BeyondCompare vor.
+Dann spielen Sie die geänderten Datei in der gezeigten Struktur ein.
+
+2)
+Neue Dateien des Moduls einspielen
+Im Ordner NEUE DATEIEN dieses Downloads den Ordner DEINADMIN auf den Namen Ihres admin Verzeichnisses umbenennen.
+Dann die Ordner/Dateien in der vorgegebenen Struktur ins Zen Cart Verzeichnis hochladen.
+Dabei werden keine bestehenden Dateien überschrieben.
+
+3)
+In der Zen Cart Administration nun auf irgendeinen Menüpunkt clicken, danach ist unter Konfiguration der neue Menüpunkt Edit Orders vorhanden.
+Die Einstellungen hier am besten so lassen wie sie sind, außer Sie haben spezielle Anforderungen 
+(Informationen dazu in der beiliegenden englischen Originalanleitung im Ordner ENGLISCHE DOKUMENTATION)
+
+4)
+Bei den Bestellungen ist nun ein neuer "Mit Edit Orders bearbeiten" Button verfügbar, mit dem Edit Orders aufgerufen wird.
+Änderungen immer mit dem Button "Aktualisieren" durchführen.
+Die Einstellung "Gesamtsummen zurücksetzen" sollte immer aktiv sein, vor allem wenn Sie mit Gruppenpreisen arbeiten.
+Stellen Sie fest, dass es in Ihrem Szenario besser ist, diese Einstellung zu deaktivieren, dann deaktivieren Sie sie.
+Sollte nach dem Aktualisieren der Netto-Betrag ein wenig vom zuvor eingegebenen abweichen, den korrekten Nettobetrag erneut reinschreiben und wieder aktualisieren.
+Wenn Sie Artikel mit unterschiedlichen Steuersätzen verwenden, dann achten Sie darauf, dass Konfiguration > Mein Shop > Gesplittete Steueranzeige auf true steht, dies ist Voraussetzung für Edit Orders!
+
+5)
+OPTIONAL
+Wenn es gewünscht ist, dass beim Ändern von Bestellungen diverse Kosten oder einmalige Rabatte hinzugefügt werden können, die beiden neuen Module ot_misc_cost und/oder ot_onetime_discount unter Module > Zusammenfassung aktivieren.
+
+
+WICHTIG:
+Dieses Modul ändert die Funktionalität des bei der enthaltenen Steuer angezeigten Textes.
+Dieser Text lautet normalerweise "enthaltene Mwst." und ist in der deutschen Zen Cart Version in der Sprachdatei includes/languages/german/modules/order_total/ot_tax.php hinterlegt.
+Und daher lautet die Beschreibung unter Länder & Steuern > Steuersätze beim jeweiligen Steuersatz nur z.B. 20% oder 19% oder 7%
+Wenn Sie Edit Orders verwenden, dann wird der Text aus der Sprachdatei nicht mehr ausgelesen, Sie müssen ihn daher in die Beschreibung des Steuersatzes einfügen.
+Ändern Sie also in der Administration bei den verschiedenen Steuersätzen von z.B
+20%
+auf
+enthaltene MwSt. 20%
+
+
+DEINSTALLATION
+
+Um das Modul komplett zu entfernen:
+
+
+1)
+Alle von diesem Modul neu angelegten Dateien löschen
+
+2)
+Die von diesem Modul geänderte Originaldatei wieder herstellen
+
+3)
+Im Ordner SQL die uninstall.sql mit einem Texteditor öffnen und den Inhalt ins Eingabefeld unter Tools > SQL Patches einfügen und absenden.
+Dadurch werden die Konfigurationseinträge für Edit Orders entfernt
+
+4)
+Falls Sie Ihre Steuersatzbeschreibung in der Administration umbenannt haben, wiede umbennen auf z.B. 20% statt enthaltene MwSt. 20%
+
+
+WEITERE INFORMATIONEN
+
+Detaillierte weitere Informationen zu diesem Modul in der englischen Originalanleitung im Ordner ENGLISCHE DOKU
