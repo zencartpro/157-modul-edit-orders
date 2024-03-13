@@ -1,13 +1,14 @@
 <?php
 /**
  * @package Edit Orders for Zen Cart German 
+ * Zen Cart German Specific
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
  * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: init_eo_config.php 2024-03-13 20:21:16Z webchills $
+ * @version $Id: init_eo_config.php 2024-03-13 21:21:16Z webchills $
  */  
  
 if (!defined('IS_ADMIN_FLAG')) {
@@ -163,7 +164,7 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
             ('Gesamtsummen beim Update zurücksetzen?', 'EO_TOTAL_RESET_DEFAULT', '43', 'Wählen Sie die Voreinstellung für die Checkbox <em>Gesamtsummen zurücksetzen</em>. Falls Ihr Shop Order Total Module verwendet, die Steuerneuberechnungen vornehmen (z.B. Gruppenpreise), dann stellen Sie diese Einstellung auf <b>on</b>.', now(), now())"
         );
           
-            );                                  //-Fall-through for additional checks
+    //-Fall-through for additional checks
 
         case (version_compare(EO_VERSION, '4.3.4', '<') || !defined('EO_PRODUCT_PRICE_CALC_METHOD')):
             $db->Execute(
@@ -176,7 +177,7 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
             "REPLACE INTO " . TABLE_CONFIGURATION_LANGUAGE . " 
              (configuration_title, configuration_key, configuration_language_id, configuration_description, last_modified, date_added)
              VALUES 
-            ('Produktpreisberechnung &mdash; Methode', 'EO_PRODUCT_PRICE_CALC_METHOD', '43', 'Wählen Sie die <em>Methode</em>, die &quot;EO&quot; verwendet, um Produktpreise zu berechnen, wenn eine Bestellung aktualisiert wird, aus folgenden Möglichkeiten:<ol><li><b>Auto</b>: Jeder Produktpreis wird neu berechnet.  Wenn Ihre Produkte Attribute haben, ermöglicht dies Änderungen an den Attributen eines Produkts, um den zugehörigen Produktpreis automatisch zu aktualisieren.</li><li><li><b>Manuell</b>: Jeder Produktpreis basiert auf dem <b><i>im Admin eingesetzten Preis</i></b> für das Produkt.</li><li><li><b><b>Wählen</b>: Die Methode der Produktpreisberechnung variiert jedesmal durch das &quot;Ankreuzenk&quot; eines Kontrollkästchens.  Die verwendete Standardmethode (<em>Auto</em> vs. <em>Manuell</em> ist durch die Einstellung <em>Produktpreiskalkulation &mdash; Standard</em> definiert.', now(), now())"
+            ('Produktpreisberechnung &mdash; Methode', 'EO_PRODUCT_PRICE_CALC_METHOD', '43', 'Wählen Sie die <em>Methode</em>, die &quot;EO&quot; verwendet, um Produktpreise zu berechnen, wenn eine Bestellung aktualisiert wird, aus folgenden Möglichkeiten:<ol><li><b>Auto</b>: Jeder Produktpreis wird neu berechnet.  Wenn Ihre Produkte Attribute haben, ermöglicht dies Änderungen an den Attributen eines Produkts, um den zugehörigen Produktpreis automatisch zu aktualisieren.</li><li><li><b>Manuell (Manual)</b>: Jeder Produktpreis basiert auf dem <b><i>im Admin eingesetzten Preis</i></b> für das Produkt.</li><li><li><b><b>Wählen (Choose)</b>: Die Methode der Produktpreisberechnung variiert jedesmal durch das &quot;Ankreuzen&quot; eines Kontrollkästchens.  Die verwendete Standardmethode (<em>Auto</em> vs. <em>Manuell</em> ist durch die Einstellung <em>Produktpreiskalkulation &mdash; Standard</em> definiert.', now(), now())"
         );
         
         $db->Execute(
@@ -241,8 +242,15 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
              VALUES 
             ('Status Historie, Anzeigereihenfolge', 'EO_STATUS_HISTORY_DISPLAY_ORDER', '43', 'Wie soll <em>Edit Orders</em> die Bestellstatus Historie Einträge einer Bestellung anzeigen? Nach Erstelldatum aufsteigend (<b>Asc</b>) oder absteigend (<b>Desc</b>)?.', now(), now())"
         );
+        
+        $db->Execute (
+            "REPLACE INTO " . TABLE_CONFIGURATION_LANGUAGE . " 
+             (configuration_title, configuration_key, configuration_language_id, configuration_description, last_modified, date_added)
+             VALUES 
+            ('Status Update, Voreinstellung für Kundenbenachrichtigung', 'EO_CUSTOMER_NOTIFICATION_DEFAULT', '43', 'Wählen Sie die Voreisnstellung für die Radio Buttons, die angeben, ob der Kunde eine Benachrichtigung erhält, wenn ein Kommentar zur Bestellung hinzugefügt wird.', now(), now())"
+        );
 	
-	                                                //-Fall-through for additional checks
+	     //-Fall-through for additional checks
         case (version_compare(EO_VERSION, '4.5.0', '<')):
             $default_value = (EO_VERSION === '0.0.0') ? 'CSB' : 'CBS';
             $db->Execute(
@@ -251,7 +259,14 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
                  VALUES 
                     ('Addresses, Display Order', 'EO_ADDRESSES_DISPLAY_ORDER', '$default_value', 'In what order, left-to-right, should <em>Edit Orders</em> display an order\'s addresses?  Choose <b>CSB</b> to display <em>Customer</em>, <em>Shipping</em> and then <em>Billing</em>; choose <b>CBS</b> to display <em>Customer</em>, <em>Billing</em> and then <em>Shipping</em>.', $cgi, 1, now(), NULL, 'zen_cfg_select_option([\'CSB\', \'CBS\'],')"
             );
-                                                //-Fall-through for additional checks
+            
+             $db->Execute (
+            "REPLACE INTO " . TABLE_CONFIGURATION_LANGUAGE . " 
+             (configuration_title, configuration_key, configuration_language_id, configuration_description, last_modified, date_added)
+             VALUES 
+            ('Adressen, Anzeigereihenfolge', 'EO_ADDRESSES_DISPLAY_ORDER', '43', 'In welcher Reihenfolge, von links nach rechts, soll <em>Edit Orders</em> die Adressen einer Bestellung anzeigen?  Wählen Sie <b>CSB</b>, um <em>Kunde</em>, <em>Versand</em> und dann <em>Rechnung</em> anzuzeigen; wählen Sie <b>CBS</b>, um <em>Kunde</em>, <em>Rechnung</em> und dann <em>Versand</em> anzuzeigen.', now(), now())"
+        );
+      //-Fall-through for additional checks
 
         // -----
         // v4.7.0:
@@ -272,7 +287,22 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
                     ('Show Edit-Order Icon on Orders\' Listing?', 'EO_SHOW_EDIT_ORDER_ICON', 'Yes', 'Should the edit-icon be shown for each order on the orders\' listing?  Default: <b>Yes</b>', $cgi, 50, now(), NULL, 'zen_cfg_select_option([\'Yes\', \'No\'],'),
 
                     ('Edit Button Location on Sidebox', 'EO_SHOW_EDIT_ORDER_BUTTON', 'Both', 'At which position(s) should the <em>Edit</em> button be displayed on the currently-selected order\'s sidebox display, relative to the order\'s information?  Default: <b>Both</b>', $cgi, 50, now(), NULL, 'zen_cfg_select_option([\'Both\', \'Top Only\', \'Bottom Only\', \'Neither\'],')"
-            );                                  //-Fall-through for additional checks
+            ); 
+            
+            $db->Execute (
+            "REPLACE INTO " . TABLE_CONFIGURATION_LANGUAGE . " 
+             (configuration_title, configuration_key, configuration_language_id, configuration_description, last_modified, date_added)
+             VALUES 
+            ('Edit Orders Icon in der Bestellübersicht', 'EO_SHOW_EDIT_ORDER_ICON', '43', 'Soll das Edit Orders bearbeiten Icon bei jeder Bestellung in der Bestellübersicht angezeigt werden? Voreinstellung: <b>Yes</b>', now(), now())"
+        );
+        
+        $db->Execute (
+            "REPLACE INTO " . TABLE_CONFIGURATION_LANGUAGE . " 
+             (configuration_title, configuration_key, configuration_language_id, configuration_description, last_modified, date_added)
+             VALUES 
+            ('Edit Orders Button in der Sidebox', 'EO_SHOW_EDIT_ORDER_BUTTON', '43', 'An welcher Position soll die Schaltfläche <em>Bearbeiten</em> in der Seitenanzeige der aktuell ausgewählten Bestellung relativ zu den Informationen der Bestellung angezeigt werden?  Voreinstellung: <b>Both</b>', now(), now())"
+        );
+         //-Fall-through for additional checks
         // -----
         // Way-old versions of EO didn't have the EO_DEBUG_ACTION_LEVEL setting set.
         //
@@ -289,7 +319,7 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
          VALUES 
             ('Debug Level', 'EO_DEBUG_ACTION_LEVEL', '43', 'Falls aktiviert werden bei jeder Edit Orders Änderung umfangreiche Debug Infos in Logfiles geschrieben.<br/><br/><b>Nur zur Fehleranalyse aktivieren!</b><br/>', now(), now())"
     );
-                                                //-Fall-through for additional checks
+   //-Fall-through for additional checks
 
         default:
             break;
