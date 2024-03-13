@@ -2,12 +2,12 @@
 /**
  * @package Edit Orders for Zen Cart German 
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
- * Copyright (c) 2017-2022 Vinos de Frutas Tropicales
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: attributes.php 2022-06-10 08:21:16Z webchills $
+ * @version $Id: attributes.php 2024-03-13 20:21:16Z webchills $
  */  
  
 if (!defined('IS_ADMIN_FLAG')) {
@@ -20,21 +20,22 @@ if (!defined('IS_ADMIN_FLAG')) {
  * @author Andrew Ballanger
  * @package classes
  */
-class attributes extends base 
+class attributes extends base
 {
-    protected $options_order_by,
-              $options_values_order_by;
-    
+    protected
+        $options_order_by,
+        $options_values_order_by;
+
     /**
      * Constructs an Attributes class for accessing product attributes, options,
      * and values.
      */
-    public function __construct() 
+    public function __construct()
     {
         // -----
         // Preset the "ORDER BY" clause for the products' options.
         //
-        if (PRODUCTS_OPTIONS_SORT_ORDER == '0') {
+        if (PRODUCTS_OPTIONS_SORT_ORDER === '0') {
             $this->options_order_by = 'LPAD(po.products_options_sort_order,11,"0"), po.products_options_name';
         } else {
             $this->options_order_by = 'po.products_options_name';
@@ -43,7 +44,7 @@ class attributes extends base
         // -----
         // Preset the "ORDER BY" clause for the products' options' values.
         //
-       if (PRODUCTS_OPTIONS_SORT_BY_PRICE == '1') {
+       if (PRODUCTS_OPTIONS_SORT_BY_PRICE === '1') {
             $this->options_values_order_by = 'LPAD(pa.products_options_sort_order,11,"0"), pov.products_options_values_name';
         } else {
             $this->options_values_order_by = 'LPAD(pa.products_options_sort_order,11,"0"), pa.options_values_price';
@@ -55,16 +56,17 @@ class attributes extends base
      * id / name / value rows for the specified product.
      *
      * @param int|string $zf_product_id the specified product id.
-     * @param bool $readonly include readonly attributes not required to add a
-     *        product to the cart, defaults to false.
+
      * @return array
      */
-    public function get_attributes_options($zf_product_id, $readonly = false) 
+    public function get_attributes_options($zf_product_id)
     {
         global $db;
-        $query = 
-            "SELECT pa.products_attributes_id, pa.options_id AS `id`, po.products_options_name AS `name`, po.products_options_type AS `type`, 
-                    po.products_options_size AS `size`, po.products_options_rows AS `rows`, po.products_options_length AS `length`, pov.products_options_values_name as `value`
+        $query =
+            "SELECT pa.products_attributes_id, pa.options_id AS `id`,
+                    po.products_options_name AS `name`, po.products_options_type AS `type`, 
+                    po.products_options_size AS `size`, po.products_options_rows AS `rows`,
+                    po.products_options_length AS `length`, pov.products_options_values_name as `value`
                FROM " . TABLE_PRODUCTS_ATTRIBUTES . " AS pa
                     LEFT JOIN " . TABLE_PRODUCTS_OPTIONS . " AS po
                         ON pa.options_id = po.products_options_id
@@ -75,7 +77,7 @@ class attributes extends base
               WHERE pa.products_id = " . (int)$zf_product_id;
  
         // Don't include READONLY attributes if product can be added to cart without them
-        if (PRODUCTS_OPTIONS_TYPE_READONLY_IGNORED == '1' && $readonly === false) {
+        if (PRODUCTS_OPTIONS_TYPE_READONLY_IGNORED === '0') {
             $query .= " AND po.products_options_type != " . (int)PRODUCTS_OPTIONS_TYPE_READONLY;
         }
 
@@ -83,7 +85,7 @@ class attributes extends base
 
         $queryResult = $db->Execute($query);
 
-        $retval = array();
+        $retval = [];
         foreach ($queryResult as $result) {
             $retval[$result['products_attributes_id']] = $result;
         }
@@ -126,9 +128,9 @@ class attributes extends base
     /**
      * Returns an array containing product attribute information. This method
      * allows you to specify a key format to change the names of the keys in the
-     * returned array. Currently supported formats are:<br />
-     * <strong>database</strong>: Uses the keys found in the database.<br />
-     * <strong>order</strong>: Uses the keys used when adding a product to an order.<br />
+     * returned array. Currently supported formats are:
+     * 'database': Uses the keys found in the database.
+     * 'order': Uses the keys used when adding a product to an order.
      *
      * @param int|string $zf_attribute_id the specified product id.
      * @param string $key_format the specified key format for the array

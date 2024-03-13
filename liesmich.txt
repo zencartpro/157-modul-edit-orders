@@ -1,4 +1,4 @@
-Edit Orders 4.6.2 für Zen Cart 1.5.7 deutsch
+Edit Orders 4.7.1 für Zen Cart 1.5.7g/1.5.7h deutsch
 
 Mit dieser Erweiterung können Bestellungen nachträglich bearbeitet werden.
 z.B.
@@ -8,6 +8,8 @@ Preis eines bestellten Artikels ändern
 Attribute eines bestellten Artikels ändern
 Versandart / Versandkosten einer Bestellung ändern
 Aktionskupons/Gutscheine hinzufügen
+
+Diese Version erfordert mindestens Zen Cart 1.5.7g deutsch!
 
 
 Dieses Modul keinesfalls direkt in einem Liveshop einbauen!
@@ -23,7 +25,7 @@ Die Steuerberechnung wurde seit Version 4.5.1 völlig neu gestaltet und gegenüb
 Dennoch:
 Die besten Ergebnisse im Hinblick auf eine korrekte Steuerausweisung werden dann erreicht, wenn es keine unterschiedlichen Steuersätze bei den Artikeln gibt und wenn es sich um einen B2B Shop handelt (Shop verwendet Nettopreise)
 Eine 100% korrekte Steuerausweisung bei geänderten Bestellungen in anderen Szenarien kann nicht garantiert werden, daher dieses Modul unbedingt erst in einem Testshop auf Eignung für den eigenen Shop überprüfen!
-Version 4.6.2 sollte aber in den meisten Szenarien korrekte Steuerausweisung nach Bestelländerung liefern.
+Version 4.7.1 sollte aber in den meisten Szenarien korrekte Steuerausweisung nach Bestelländerung liefern.
 
 Seit Version 4.6.2 ist lediglich die Änderung nur noch einer einzigen Datei erforderlich, alles andere wird mit Observern gelöst, so dass die Installation sehr einfach ist.
 

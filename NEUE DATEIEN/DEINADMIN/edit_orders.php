@@ -2,12 +2,12 @@
 /**
  * @package Edit Orders for Zen Cart German 
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
- * Copyright (c) 2017-2022 Vinos de Frutas Tropicales
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: edit_orders.php 2022-06-10 08:30:16Z webchills $
+ * @version $Id: edit_orders.php 2024-03-13 20:01:16Z webchills $
  */  
 
 require 'includes/application_top.php';
@@ -78,7 +78,7 @@ foreach ($orders_status_query as $orders_status) {
     $orders_status_array[$status_id] = $status_name;
 }
 
-$action = (!empty($_GET['action']) ? $_GET['action'] : 'edit');
+$action = $_GET['action'] ?? 'edit';
 $eo->eoLog(PHP_EOL . date('Y-m-d H:i:s') . ", Edit Orders entered (" . EO_VERSION . ") action ($action)" . PHP_EOL . 'Enabled Order Totals: ' . MODULE_ORDER_TOTAL_INSTALLED, 1);
 $zco_notifier->notify('EDIT_ORDERS_START_ACTION_PROCESSING');
 switch ($action) {
@@ -109,7 +109,7 @@ switch ($action) {
         break; 
 }
 
-if ($action == 'edit' || ($action == 'update_order' && empty($allow_update))) {
+if ($action === 'edit' || ($action === 'update_order' && empty($allow_update))) {
     $action = 'edit';
     
     $order = $eo->getOrderInfo($action);
@@ -135,9 +135,7 @@ if ($action == 'edit' || ($action == 'update_order' && empty($allow_update))) {
 <body>
 <!-- header //-->
 <div class="header-area">
-<?php
-    require DIR_WS_INCLUDES . 'header.php';
-?>
+    <?php require DIR_WS_INCLUDES . 'header.php'; ?>
 </div>
 <!-- header_eof //-->
 <?php
@@ -152,8 +150,8 @@ if ($action == 'edit' || ($action == 'update_order' && empty($allow_update))) {
 // and inputs generated via zen_draw_input_field.  The variables set below that start with $input_ are
 // used on the function-call field-generation and the others are used when directly-coded.
 //
-if (!defined('EDIT_ORDERS_USE_NUMERIC_FIELDS')) define('EDIT_ORDERS_USE_NUMERIC_FIELDS', '1');
-if (EDIT_ORDERS_USE_NUMERIC_FIELDS != '1') {
+zen_define_default('EDIT_ORDERS_USE_NUMERIC_FIELDS', '1');
+if (EDIT_ORDERS_USE_NUMERIC_FIELDS !== '1') {
     $input_value_parms = '';
     $input_tax_parms = '';
     $value_parms = '';
@@ -170,9 +168,9 @@ if (EDIT_ORDERS_USE_NUMERIC_FIELDS != '1') {
 // -----
 // Start action-based rendering ...
 //
-if ($action == 'edit') {
+if ($action === 'edit') {
     require DIR_WS_MODULES . 'edit_orders/eo_edit_action_display.php';
-} elseif ($action == "add_prdct") { 
+} elseif ($action === 'add_prdct') { 
     require DIR_WS_MODULES . 'edit_orders/eo_add_prdct_action_display.php';
 }
 
@@ -198,7 +196,7 @@ if (!empty($additional_totals_displayed)) {
 <!-- body_eof //-->
 <?php
 }
-if (DISPLAY_PRICE_WITH_TAX == 'true') {
+if (DISPLAY_PRICE_WITH_TAX === 'true') {
 ?>
 <script>
 $(document).ready(function() {

@@ -2,12 +2,12 @@
 /**
  * @package Edit Orders for Zen Cart German 
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
- * Copyright (c) 2017-2022 Vinos de Frutas Tropicales
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: mock_cart.php 2022-06-10 08:21:16Z webchills $
+ * @version $Id: mock_cart.php 2024-03-13 20:21:16Z webchills $
  */  
  
 if (!defined('IS_ADMIN_FLAG')) {
@@ -195,7 +195,9 @@ class mockCart extends base
             unset($product['qty']);
 
             $products = $db->Execute(
-                "SELECT master_categories_id AS category, products_image AS image, products_weight AS weight, products_virtual, product_is_always_free_shipping, products_tax_class_id AS tax_class_id
+                "SELECT master_categories_id AS category, products_image AS image,
+                        products_weight AS weight, products_virtual, product_is_always_free_shipping,
+                        products_tax_class_id AS tax_class_id
                    FROM ". TABLE_PRODUCTS . "
                   WHERE products_id = " . (int)$product['id'] . "
                   LIMIT 1"

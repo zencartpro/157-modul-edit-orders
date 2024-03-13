@@ -1,5 +1,5 @@
 ##########################################################################
-# Edit Orders 4.6.2 Uninstall - 2022-06-10 - webchills
+# Edit Orders 4.7.1 Uninstall - 2024-03-13 - webchills
 # NUR AUSFÜHREN WENN SIE DAS MODUL AUS DER DATENBANK ENTFERNEN WOLLEN!!!!!
 ##########################################################################
 

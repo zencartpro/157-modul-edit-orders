@@ -1,4 +1,10 @@
 <?php
+// -----
+// Language constants used by the /admin/edit_orders.php processing (Edit Orders).
+//
+//-Last modified 2024-03-13 webchills Edit Orders v4.7.1
+//
+// Page / Section Headings
 define('HEADING_TITLE', 'Bestellung ändern');
 define('HEADING_TITLE_SEARCH', 'Bestellnummer:');
 define('HEADING_TITLE_STATUS', 'Status:');
@@ -74,7 +80,6 @@ define('WARNING_ORDER_QTY_OVER_MAX', 'WARNUNG: Die eingegebene Menge hat die max
 define('WARNING_ORDER_COUPON_BAD', 'WARNUNG: Der Aktionskuponcode wurde in der Datenbank nicht gefunden. Hinweis: Titel / Text eines Aktionskupons sehen normalerweise so aus: &quot;Discount Coupon : coupon_code :&quot;. ');
 define('WARNING_INSUFFICIENT_PRODUCT_STOCK', 'Unzureichender Lagerbestand für <em>%1$s</em>, angefordert %2$s mit nur %3$s verfügbar.');
 define('ERROR_ZEN_ADD_TAX_ROUNDING', "Die <code>zen_add_tax</code> Funktion muss aktualisiert werden, damit Edit Orders funktioniert. Nehmen Sie die in der Anleitung beschriebene Änderung vor.");
-define ('ERROR_ZC155_NO_SANITIZER', 'You must install the Zen Cart 1.5.5 <em>AdminRequestSanitizer</em> class before you can use Edit Orders on this site.');
 // Product & Attribute Display
 define('TEXT_ATTRIBUTES_ONE_TIME_CHARGE', 'Einmalige Gebühren: &nbsp;&nbsp;');
 define('TEXT_ATTRIBUTES_UPLOAD_NONE', 'keine Datei hochgeladen');
@@ -111,7 +116,7 @@ define('PULL_DOWN_DEFAULT', 'Bitte wählen Sie Ihr Land');
 define('WARNING_ATTRIBUTE_OPTION_GRID', 'Warnung: Das Modul Product Attribute Grid wurde entdeckt, aber der Product Option Type für Attribute Grid wurde nicht vollständig in die Datenbank übernommen. Übergangsweise wird PRODUCTS_OPTIONS_TYPE_ATTRIBUTE_GRID = 23997 definiert.');
 // Other elements
 define('RESET_TOTALS', 'Gesamtsummen zurücksetzen?');
-define('PAYMENT_CALC_METHOD', 'Wählen Sie die Brechnungsmethode:');
+define('PAYMENT_CALC_METHOD', 'Wählen Sie die Berechnungsmethode:');
 define('PAYMENT_CALC_MANUAL', 'Manuell eingegebene Artikelpreise ');
 define('PAYMENT_CALC_AUTO', 'Automatisch, Sonderangebotspreise nicht berücksichtigen');
 define('PAYMENT_CALC_AUTOSPECIALS', 'Automatisch, Sonderangebotspreise berücksichtigen');
@@ -123,6 +128,10 @@ define('EO_MESSAGE_PRICING_AUTO', 'Preise wurden automatisch berechnet ohne Verw
 define('EO_MESSAGE_PRICING_AUTOSPECIALS', 'Preise wurden automatisch berechnet mit Verwendung von Sonderangebotspreisen.');
 define('EO_MESSAGE_PRICING_MANUAL', 'Preise wurden manuell angegeben.');
 define('EO_MESSAGE_ORDER_UPDATED', 'Die Bestellung wurde aktualisiert via "Edit Orders". ');
+define('EO_MESSAGE_ADDRESS_UPDATED','Die Adresse der Bestellung %1$s wurde aktualisiert von: ');   //-%1$s: The type of address (see below) that was updated
+define('EO_CUSTOMER','customer');
+define('EO_BILLING','billing');
+define('EO_DELIVERY','delivery');
 define('EO_MESSAGE_PRODUCT_ADDED', '%1$s x "%2$s" zur Bestellung hinzugefügt');   //-%1$s: The product quantity, %2$s: The product name
 define('EO_MESSAGE_ATTRIBS_ADDED', ', mit Optionen (%s)');
 define('EO_SHIPPING_TAX_DESCRIPTION', 'Versand Steuer (%s%%)');

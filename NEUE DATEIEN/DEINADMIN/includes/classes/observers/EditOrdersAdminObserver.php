@@ -2,82 +2,99 @@
 /**
  * @package Edit Orders for Zen Cart German 
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
- * Copyright (c) 2017-2022 Vinos de Frutas Tropicales
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: EditOrdersAdminObserver.php 2022-06-10 08:21:16Z webchills $
+ * @version $Id: EditOrdersAdminObserver.php 2024-03-13 20:21:16Z webchills $
  */
 
 if (!defined('IS_ADMIN_FLAG') || IS_ADMIN_FLAG !== true) {
     die('Illegal Access');
 }
 
-class EditOrdersAdminObserver extends base 
+class EditOrdersAdminObserver extends base
 {
-    public function __construct() 
+    public function __construct()
     {
-        $zencart_version = PROJECT_VERSION_MAJOR . '.' . PROJECT_VERSION_MINOR;
-        $this->is157OrLaterZenCart = ($zencart_version >= '1.5.7');
-        $this->isEditOrdersPage = (basename($GLOBALS['PHP_SELF'], '.php') == FILENAME_EDIT_ORDERS);
-        $this->attach(
-            $this, 
-            [
-                /* From /admin/orders.php */
-                'NOTIFY_ADMIN_ORDERS_MENU_BUTTONS', 
-                'NOTIFY_ADMIN_ORDERS_MENU_BUTTONS_END',
-                'NOTIFY_ADMIN_ORDERS_EDIT_BUTTONS',
-                'NOTIFY_ADMIN_ORDERS_SHOW_ORDER_DIFFERENCE',    //-This is the zc156+ version of the above notification.
-                
-                /* From /includes/modules/order_total/ot_shipping.php */
-                'NOTIFY_OT_SHIPPING_TAX_CALCS',
-            ]
-        );
-        
+        global $current_page;
+
+        $current_page_base = basename($current_page, '.php');
+
         // -----
-        // Starting with zc156, the order-class 'squishes' the delivery address to (bool)false when
-        // the order's shipping-method is 'storepickup'.  Watch this event only during Edit Orders' processing!
+        // If on the 'orders' page, watch for events pertinent to that page's processing.
         //
-        if ($this->isEditOrdersPage) {
-            $this->attach($this, ['NOTIFY_ORDER_AFTER_QUERY']);
+        if ($current_page_base === FILENAME_ORDERS) {
+            $orders_page_notifications = [
+                'NOTIFY_ADMIN_ORDERS_EDIT_BUTTONS',
+            ];
+            if (EO_SHOW_EDIT_ORDER_ICON === 'Yes') {
+                $orders_page_notifications[] = 'NOTIFY_ADMIN_ORDERS_SHOW_ORDER_DIFFERENCE';
+            }
+            if (EO_SHOW_EDIT_ORDER_BUTTON === 'Both' || EO_SHOW_EDIT_ORDER_BUTTON === 'Top Only') {
+                $orders_page_notifications[] = 'NOTIFY_ADMIN_ORDERS_MENU_BUTTONS';
+            }
+            if (EO_SHOW_EDIT_ORDER_BUTTON === 'Both' || EO_SHOW_EDIT_ORDER_BUTTON === 'Bottom Only') {
+                $orders_page_notifications[] = 'NOTIFY_ADMIN_ORDERS_MENU_BUTTONS_END';
+            }
+            $this->attach($this, $orders_page_notifications);
+        // -----
+        // If on the 'edit_orders' page, watch for events pertinent to that page's processing.
+        //
+        } elseif ($current_page_base === FILENAME_EDIT_ORDERS) {
+            $this->attach(
+                $this,
+                [
+                    /* From /includes/classes/order.php */
+                    'NOTIFY_ORDER_AFTER_QUERY',
+
+                    /* From /includes/functions/functions_taxes.php */
+                    'ZEN_GET_TAX_LOCATIONS',
+
+                    /* From /includes/modules/order_total/ot_shipping.php */
+                    'NOTIFY_OT_SHIPPING_TAX_CALCS',
+                ]
+            );
         }
     }
-  
-    public function update(&$class, $eventID, $p1, &$p2, &$p3, &$p4, &$p5) 
+
+    public function update(&$class, $eventID, $p1, &$p2, &$p3, &$p4, &$p5)
     {
         switch ($eventID) {
             // -----
             // Issued during the orders-listing sidebar generation, after the upper button-list has been created.
             //
             // $p1 ... Contains the current $oInfo object, which contains the orders-id.
-            // $p2 ... A reference to the current $contents array; the NEXT-TO-LAST element has been updated
-            //         with the built-in button list.
+            // $p2 ... A reference to the current $contents array; the 'Edit' button will be added on its own line.
             //
             case 'NOTIFY_ADMIN_ORDERS_MENU_BUTTONS': 
-                if (is_object($p1)) {
-                    $index_to_update = count($p2) - 2;
-                    $p2[$index_to_update]['text'] = $this->addEditOrderButton($p1->orders_id, $p2[$index_to_update]['text']);
-                }
+                $p2[] = [
+                    'align' => 'text-center',
+                    'text' => $this->addEditOrderButton($p1->orders_id),
+                ];
                 break;
-      
+
             // -----
             // Issued during the orders-listing sidebar generation, after the lower-button-list has been created.
             //
             // $p1 ... Contains the current $oInfo object (could be empty), containing the orders-id.
-            // $p2 ... A reference to the current $contents array; the LAST element has been updated
-            //         with the built-in button list.
+            // $p2 ... A reference to the current $contents array; the 'Edit' button will be added on its own line.
             //
             case 'NOTIFY_ADMIN_ORDERS_MENU_BUTTONS_END':
-                if (is_object($p1) && count($p2) > 0 && isset($_GET['action']) && $_GET['action'] !== 'delete') {
-                    $index_to_update = count($p2) - 1;
-                    $p2[$index_to_update]['text'] = $this->addEditOrderButton($p1->orders_id, $p2[$index_to_update]['text']);
+                if ((!isset($_GET['action']) || $_GET['action'] !== 'delete') && !empty($p1)) {
+                    $p2[] = [
+                        'align' => 'text-center',
+                        'text' => $this->addEditOrderButton($p1->orders_id),
+                    ];
                 }
                 break;
-                
+
             // -----
             // Issued during the orders-listing generation for each order, gives us a chance to add the icon to
             // quickly edit the associated order.
+            //
+            // Starting with v4.7.0, displayed only if so-configured.
             //
             // $p1 ... An empty array
             // $p2 ... A reference to the current order's database fields array.
@@ -86,10 +103,13 @@ class EditOrdersAdminObserver extends base
             //         linking to this order's EO processing.
             //
             case 'NOTIFY_ADMIN_ORDERS_SHOW_ORDER_DIFFERENCE':
-                $eo_icon = ($this->is157OrLaterZenCart) ? EO_ZC157_FA_ICON : EO_ZC156_FA_ICON;
-                $p4 .= $this->createEditOrdersLink($p2['orders_id'], zen_image(DIR_WS_IMAGES . EO_BUTTON_ICON_DETAILS, EO_ICON_DETAILS), $eo_icon, false);
+                $p4 .= $this->createEditOrdersLink(
+                    $p2['orders_id'],
+                    null,
+                    '<i class="fa fa-wrench fa-sm overlay" title="' . EO_ICON_DETAILS . '"></i>'
+                );
                 break;
-      
+
             // -----
             // Issued during an order's detailed display, allows the insertion of the "edit" button to link
             // the order to the "Edit Orders" processing.
@@ -99,9 +119,9 @@ class EditOrdersAdminObserver extends base
             // $p3 ... A reference to the $extra_buttons string, which is updated to include that edit button.
             //
             case 'NOTIFY_ADMIN_ORDERS_EDIT_BUTTONS':
-                $p3 .= '&nbsp;' . $this->createEditOrdersLink($p1, zen_image_button(EO_IMAGE_BUTTON_EDIT, EO_IMAGE_EDIT), EO_IMAGE_EDIT);
+                $p3 .= '&nbsp;' . $this->addEditOrderButton($p1);
                 break;
-                
+
             // -----
             // Issued during the order-totals' construction by the ot_shipping module, giving observers the chance
             // to override the shipping tax-related calculations.
@@ -125,19 +145,17 @@ class EditOrdersAdminObserver extends base
             //    what tax-rate to apply.
             //
             case 'NOTIFY_OT_SHIPPING_TAX_CALCS':
-                if ($this->isEditOrdersPage) {
-                    $GLOBALS['eo']->eoUpdateOrderShippingTax($p2, $p3, $p4);
-                    $p2 = true;
-                    $this->detach($this, ['NOTIFY_OT_SHIPPING_TAX_CALCS']);
-                    
-                    $module = (isset($_SESSION['shipping']) && isset($_SESSION['shipping']['id'])) ? substr($_SESSION['shipping']['id'], 0, strpos($_SESSION['shipping']['id'], '_')) : '';
-                    if ($module != '' && $module != 'free') {
-                        require DIR_WS_CLASSES . 'EditOrdersOtShippingStub.php';
-                        $GLOBALS[$module] = new EditOrdersOtShippingStub();
-                    }
+                $GLOBALS['eo']->eoUpdateOrderShippingTax($p2, $p3, $p4);
+                $p2 = true;
+                $this->detach($this, ['NOTIFY_OT_SHIPPING_TAX_CALCS']);
+
+                $module = (isset($_SESSION['shipping']['id'])) ? substr($_SESSION['shipping']['id'], 0, strpos($_SESSION['shipping']['id'], '_')) : '';
+                if ($module !== '' && $module !== 'free') {
+                    require DIR_WS_CLASSES . 'EditOrdersOtShippingStub.php';
+                    $GLOBALS[$module] = new EditOrdersOtShippingStub();
                 }
                 break;
-                
+
             // -----
             // Issued at the end of an order's recreation (watched during EO processing only). Change introduced 
             // in zc156b now sets the order's shipping information to (bool)false when the order's shipping is 'storepickup'.
@@ -150,7 +168,7 @@ class EditOrdersAdminObserver extends base
             // $p2 ... Identifies the order-id.
             //
             case 'NOTIFY_ORDER_AFTER_QUERY':
-                if (!($class->info['shipping_module_code'] == 'storepickup' && $class->delivery === false)) {
+                if (!($class->info['shipping_module_code'] === 'storepickup' && $class->delivery === false)) {
                     break;
                 }
                 $order = $GLOBALS['db']->Execute(
@@ -174,36 +192,79 @@ class EditOrdersAdminObserver extends base
                     'format_id' => $order->fields['delivery_address_format_id']
                 ];
                 break;
-                
+
+            // -----
+            // Added v4.7.0, replacing function override on EO page.
+            //
+            // On entry:
+            //
+            // $p1 ... (r/o) An associative array containing the 'store_country' and 'store_zone'.
+            // $p2 ... (r/w) A reference to the $tax_address array to be returned (containing a 'country_id' and 'zone_id').
+            //
+            case 'ZEN_GET_TAX_LOCATIONS':
+                global $order, $customer_country_id, $customer_zone_id, $eo;
+
+                if (STORE_PRODUCT_TAX_BASIS === 'Store') {
+                    $customer_country_id = STORE_COUNTRY;
+                    $customer_zone_id = STORE_ZONE;
+                } else {
+                    $_SESSION['customer_id'] = $order->customer['id'];
+
+                    if (STORE_PRODUCT_TAX_BASIS === 'Shipping') {
+                        global $eo;
+                        if ($eo->eoOrderIsVirtual($order)) {
+                            if (is_array($order->billing['country'])) {
+                                $customer_country_id = $order->billing['country']['id'];
+                            } else {
+                                $customer_country_id = $eo->getCountryId($order->billing['country']);
+                            }
+                            $customer_zone_id = $eo->getZoneId((int)$customer_country_id, $order->billing['state']);
+                        } else {
+                            if (is_array($order->delivery['country'])) {
+                                $customer_country_id = $order->delivery['country']['id'];
+                            } else {
+                                $customer_country_id = $eo->getCountryId($order->delivery['country']);
+                            }
+                            $customer_zone_id = $eo->getZoneId((int)$customer_country_id, $order->delivery['state']);
+                        }
+                    } elseif (STORE_PRODUCT_TAX_BASIS === 'Billing') {
+                        if (is_array ($order->billing['country'])) {
+                            $customer_country_id = $order->billing['country']['id'];
+                        } else {
+                            $customer_country_id = $eo->getCountryId($order->billing['country']);
+                        }
+                        $customer_zone_id = $eo->getZoneId((int)$customer_country_id, $order->billing['state']);
+                    }
+                }
+                $_SESSION['customer_country_id'] = $customer_country_id;
+                $_SESSION['customer_zone_id'] = $customer_zone_id;
+
+                $p2 = [
+                    'zone_id' => $customer_zone_id,
+                    'country_id' => $customer_country_id,
+                ];
+                break;
+
             default:
                 break;
         }
     }
-    
-    protected function addEditOrderButton($orders_id, $button_list)
+
+    protected function addEditOrderButton($orders_id)
     {
-        $updated_button_list = str_replace(
-            [
-                EO_IMAGE_BUTTON_EDIT,
-                EO_IMAGE_EDIT,
-            ],
-            [
-                EO_IMAGE_BUTTON_DETAILS,
-                EO_IMAGE_DETAILS
-            ],
-            $button_list
-        );
-        return $updated_button_list . '&nbsp;' . $this->createEditOrdersLink($orders_id, zen_image_button(EO_IMAGE_BUTTON_EDIT, EO_IMAGE_EDIT), EO_IMAGE_EDIT);
+        return $this->createEditOrdersLink($orders_id, 'button', IMAGE_EDIT);
     }
 
-    protected function createEditOrdersLink($orders_id, $link_button, $link_text, $include_zc156_parms = true)
+    protected function createEditOrdersLink($orders_id, $link_button, $link_text)
     {
-        $link_parms = '';
-        if ($include_zc156_parms) {
+        if ($link_button !== null) {
             $link_parms = ' class="btn btn-primary" role="button"';
-        } elseif ($this->is157OrLaterZenCart) {
-            $link_parms = ' class="btn btn-default btn-edit"';
+        } else {
+            $link_parms = ' class="btn btn-default btn-sm btn-edit" role="button"';
         }
-        return '&nbsp;<a href="' . zen_href_link(FILENAME_EDIT_ORDERS, zen_get_all_get_params(['oID', 'action']) . "oID=$orders_id&action=edit", 'NONSSL') . "\"$link_parms>$link_text</a>";
+        return
+            '<a href="' . zen_href_link(FILENAME_EDIT_ORDERS, zen_get_all_get_params(['oID', 'action']) . 'action=edit&oID=' . $orders_id) . '"' . $link_parms . '>' .
+                $link_text .
+            '</a>';
     }
 }
