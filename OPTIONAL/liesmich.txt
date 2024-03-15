@@ -1,0 +1,8 @@
+Wenn Sie in Ihrem Shop die Funktionalitäten Aktionskupons (ot_coupon) oder Gruppenpreise (ot_group_pricing) verwenden, ist die Wahrscheinlichkeit höher, dass Bestellungen mit Rundungsproblemen im Centbereich auftreten. 
+Das heißt, der Gesamtwert einer Bestellung entspricht nicht exakt der Summe der einzelnen Bestellsummenelemente.
+
+Edit Orders bietet optionale Anpassungen für jedes dieser Auftragssummenmodule, um diese Situationen zu entschärfen. 
+Bitte beachten Sie, dass diese Modifikationen nicht mit Shops getestet wurden, die Preise inclusive Steuern anzeigen.
+
+Spielen Sie diese geänderten Dateien also nur ein, wenn Sie starke Rundungsprobleme feststellen und die Funktionalität in Ihrem Testshop geprüft haben.
+Sollten Ihnen diese Modifikationen nicht das gewünschte Ergebnis bringen, spielen Sie sie NICHT in Ihrem Liveshop ein, sondern verwenden die Originaldateien weiter.
