@@ -2,19 +2,19 @@
 /**
  * @package Edit Orders for Zen Cart German 
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
- * Copyright (c) 2017-2022 Vinos de Frutas Tropicales
+ * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
  * @copyright Copyright 2003-2022 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: eo_add_prdct_action_processing.php 2022-06-10 08:21:16Z webchills $
+ * @version $Id: eo_add_prdct_action_processing.php 2024-03-20 07:21:16Z webchills $
  */ 
 // -----
 // Prior to EO v4.6.0, this code was in-line in the main /admin/edit_orders.php script.  Now required by
 // that script in global context for its 'add_prdct' action.
 //
 $redirect_required = false;
-if (!zen_not_null($step)) {
+if (empty($step)) {
     $step = 1;
 }
 $eo->eoLog(
@@ -42,7 +42,7 @@ if ($step == 5) {
     }
 
     // Retrieve the information for the new product
-    $attributes = (isset($_POST['id'])) ? zen_db_prepare_input($_POST['id']) : [];
+    $attributes = zen_db_prepare_input($_POST['id'] ?? []);
     $new_product = eo_get_new_product(
         $add_product_products_id,
         $add_product_quantity,
@@ -66,7 +66,7 @@ if ($step == 5) {
 
     // Remove the low order and/or cod fees (will automatically repopulate if needed)
     foreach ($order->totals as $key => $total) {
-        if ($total['class'] == 'ot_loworderfee' || $total['class'] == 'ot_cod_fee') {
+        if ($total['class'] === 'ot_loworderfee' || $total['class'] === 'ot_cod_fee') {
             // Update the information in the order
             $total['title'] = '';
             $total['value'] = 0;

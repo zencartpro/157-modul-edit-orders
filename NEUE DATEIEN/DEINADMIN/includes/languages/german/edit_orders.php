@@ -86,7 +86,7 @@ define('TEXT_ATTRIBUTES_UPLOAD_NONE', 'keine Datei hochgeladen');
 // Order Totals Display
 define('TEXT_ADD_ORDER_TOTAL', 'Hinzufügen ');
 define('TEXT_CHOOSE_SHIPPING_MODULE', 'Wählen Sie eine Versandart: ');
-if (!defined('TEXT_COMMAND_TO_DELETE_CURRENT_COUPON_FROM_ORDER')) define('TEXT_COMMAND_TO_DELETE_CURRENT_COUPON_FROM_ORDER', 'REMOVE');
+define('TEXT_COMMAND_TO_DELETE_CURRENT_COUPON_FROM_ORDER', 'REMOVE');
 // Add a Product
 define('TEXT_ADD_NEW_PRODUCT', 'Artikel hinzufügen');
 define('ADDPRODUCT_TEXT_CATEGORY_CONFIRM', 'OK');

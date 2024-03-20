@@ -2,12 +2,12 @@
 /**
  * @package Edit Orders for Zen Cart German 
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
- * Copyright (c) 2017-2022 Vinos de Frutas Tropicales
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: eo_update_order_action_processing.php 2022-06-10 08:21:16Z webchills $
+ * @version $Id: eo_update_order_action_processing.php 2024-03-20 08:21:16Z webchills $
  */ 
 // -----
 // Prior to EO v4.6.0, this code was in-line in the main /admin/edit_orders.php script.  Now required by
@@ -51,9 +51,9 @@ $sql_data_array = [
     'delivery_postcode' => $_POST['update_delivery_postcode'],
     'delivery_country' => $_POST['update_delivery_country'],
     'payment_method' => $_POST['update_info_payment_method'],
-    'cc_type' => (isset($_POST['update_info_cc_type'])) ? $_POST['update_info_cc_type'] : '',
-    'cc_owner' => (isset($_POST['update_info_cc_owner'])) ? $_POST['update_info_cc_owner'] : '',
-    'cc_expires' => (isset($_POST['update_info_cc_expires'])) ? $_POST['update_info_cc_expires'] : '',
+    'cc_type' => $_POST['update_info_cc_type'] ?? '',
+    'cc_owner' => $_POST['update_info_cc_owner'] ?? '',
+    'cc_expires' => $_POST['update_info_cc_expires'] ?? '',
     'order_tax' => 0
 ];
 
@@ -78,7 +78,7 @@ if (isset($_POST['update_info_cc_number'])) {
     // If the number is not already obfuscated, we use the same method
     // as the authorize.net module to obfuscate the entered CC number
     if (ctype_digit($update_info_cc_number)) {
-        $update_info_cc_number = str_pad(substr($_POST['update_info_cc_number'], -4), strlen($_POST['update_info_cc_number']), "X", STR_PAD_LEFT);
+        $update_info_cc_number = str_pad(substr($_POST['update_info_cc_number'], -4), strlen($_POST['update_info_cc_number']), 'X', STR_PAD_LEFT);
     }
 
     $sql_data_array['cc_number'] = $update_info_cc_number;
@@ -106,8 +106,8 @@ zen_db_perform(TABLE_ORDERS, $sql_data_array, 'update', "orders_id = $oID LIMIT 
 // Update the order's status-history (and send emails, if requested) via the common
 // Zen Cart function.
 //
-$email_include_message = (isset($_POST['notify_comments']) && $_POST['notify_comments'] == 'on');
-$customer_notified = isset($_POST['notify']) ? (int)$_POST['notify'] : 0;
+$email_include_message = (isset($_POST['notify_comments']) && $_POST['notify_comments'] === 'on');
+$customer_notified = (int)($_POST['notify'] ?? 0);
 
 $status_updated = zen_update_orders_history($oID, $comments, null, $status, $customer_notified, $email_include_message);
 $order_updated = ($status_updated > 0);
@@ -139,13 +139,17 @@ if (isset($_POST['update_products'])) {
     // applied to start afresh.
     //
     if (isset($_POST['reset_totals'])) {
-        $order->info['tax'] = $order->info['shipping_tax'] = $order->info['shipping_cost'] = $order->info['total'] = $order->info['subtotal'] = 0;
+        $order->info['tax'] = 0;
+        $order->info['shipping_tax'] = 0;
+        $order->info['shipping_cost'] = 0;
+        $order->info['total'] = 0;
+        $order->info['subtotal'] = 0;
         $order->totals = [];
         foreach ($order->info['tax_groups'] as $key => $value) {
             $order->info['tax_groups'][$key] = 0;
         }
     }
-    
+
     // -----
     // Initialize the shipping cost, tax-rate and tax-value.
     //
@@ -162,9 +166,9 @@ if (isset($_POST['update_products'])) {
     // Determine the 'base' price-calculation method to be used, setting the message to be
     // written to the order's status-history once the order's products have been processed.
     //
-    if (EO_PRODUCT_PRICE_CALC_METHOD == 'Auto' || EO_PRODUCT_PRICE_CALC_METHOD == 'AutoSpecials' || (EO_PRODUCT_PRICE_CALC_METHOD == 'Choose' && $_POST['payment_calc_method'] != 3)) {
+    if (EO_PRODUCT_PRICE_CALC_METHOD === 'Auto' || EO_PRODUCT_PRICE_CALC_METHOD === 'AutoSpecials' || (EO_PRODUCT_PRICE_CALC_METHOD === 'Choose' && $_POST['payment_calc_method'] !== '3')) {
         $price_calc_method_message = EO_MESSAGE_PRICING_AUTO;
-        if (EO_PRODUCT_PRICE_CALC_METHOD == 'AutoSpecials' || (EO_PRODUCT_PRICE_CALC_METHOD == 'Choose' && $_POST['payment_calc_method'] == 1)) {
+        if (EO_PRODUCT_PRICE_CALC_METHOD === 'AutoSpecials' || (EO_PRODUCT_PRICE_CALC_METHOD === 'Choose' && $_POST['payment_calc_method'] === '1')) {
             $price_calc_method_message = EO_MESSAGE_PRICING_AUTOSPECIALS;
         }
         $price_calc_method = 'auto';
@@ -197,7 +201,7 @@ if (isset($_POST['update_products'])) {
             PHP_EOL . 'Order Product ID: ' . $orders_products_id . ' Row ID: ' . $rowID . PHP_EOL .
             'Product in Request: ' . PHP_EOL . $eo->eoFormatArray($product_update)
         );
-                
+
         // Only update if there is an existing item in the order
         if ($rowID >= 0) {
             // Grab the old product + attributes
@@ -227,17 +231,17 @@ if (isset($_POST['update_products'])) {
             if ($product_update['qty'] > 0) {
 
                 // Retrieve the information for the new product
-                $attrs = (isset($product_update['attr'])) ? $product_update['attr'] : '';
+                $attrs = $product_update['attr'] ?? '';
                 unset($product_update['attr']);
                 $new_product = eo_get_new_product(
                     $old_product['id'],
                     $product_update['qty'],
                     $product_update['tax'],
                     $attrs,
-                    (EO_PRODUCT_PRICE_CALC_METHOD == 'AutoSpecials' || (EO_PRODUCT_PRICE_CALC_METHOD == 'Choose' && $_POST['payment_calc_method'] == 1))
+                    (EO_PRODUCT_PRICE_CALC_METHOD === 'AutoSpecials' || (EO_PRODUCT_PRICE_CALC_METHOD === 'Choose' && $_POST['payment_calc_method'] === '1'))
                 );
                 unset($attrs);
-                
+
                 // Handle the case where the product was deleted
                 // from the store. This should probably never be done.
                 // Removing the product will cause issues with links
@@ -263,17 +267,17 @@ if (isset($_POST['update_products'])) {
                 // Depending on the product-price calculation method, either the values entered
                 // or the pricing just calculated "rule".
                 //
-                if ($price_calc_method == 'auto') {
+                if ($price_calc_method === 'auto') {
                     $new_product = array_merge($product_update, $new_product);
                 } else {
                     $new_product = array_merge($new_product, $product_update);
                 }
-                
+
                 // -----
                 // If the admin has an option to "Choose" the pricing calculation method, save the
                 // current selection in the session so that it's maintained during their processing.
                 //
-                if (EO_PRODUCT_PRICE_CALC_METHOD == 'Choose') {
+                if (EO_PRODUCT_PRICE_CALC_METHOD === 'Choose') {
                     $_SESSION['eo_price_calculations'] = $_POST['payment_calc_method'];
                 }
 
@@ -283,6 +287,10 @@ if (isset($_POST['update_products'])) {
                 // Update Subtotal and Pricing
                 eo_update_order_subtotal($oID, $new_product);
 
+                // -----
+                // Log the new product added; don't need its description!
+                //
+                unset($new_product['products_description']);
                 $eo->eoLog (
                     PHP_EOL . $price_calc_method . PHP_EOL .
                     'Added Product:' . PHP_EOL . $eo->eoFormatArray($new_product) . PHP_EOL .
@@ -295,16 +303,30 @@ if (isset($_POST['update_products'])) {
             $order_updated = true;
         }
     }
-    
+
     // -----
     // If the order's been updated ...
     //
-    if ($order_updated) {
+    if ($order_updated === true) {
+        // -----
+        // See if additional details regarding what was updated in the order are available.
+        //
+        $additional_history = '';
+        if (html_entity_decode($eo->arrayImplode($order->customer), ENT_COMPAT, CHARSET) !== html_entity_decode($_POST['existing-customer'], ENT_COMPAT, CHARSET)) {
+            $additional_history .= "\n\n" . sprintf(EO_MESSAGE_ADDRESS_UPDATED, EO_CUSTOMER) . $_POST['existing-customer'];
+        }
+        if (html_entity_decode($eo->arrayImplode($order->billing), ENT_COMPAT, CHARSET) !== html_entity_decode($_POST['existing-billing'], ENT_COMPAT, CHARSET)) {
+            $additional_history .= "\n\n" . sprintf(EO_MESSAGE_ADDRESS_UPDATED, EO_BILLING) . $_POST['existing-billing'];
+        }
+        if (html_entity_decode($eo->arrayImplode($order->delivery), ENT_COMPAT, CHARSET) !== html_entity_decode($_POST['existing-delivery'], ENT_COMPAT, CHARSET)) {
+            $additional_history .= "\n\n" . sprintf(EO_MESSAGE_ADDRESS_UPDATED, EO_DELIVERY) . $_POST['existing-delivery'];
+        }
+
         // -----
         // Add an orders-status-history record, identifying that an update was performed.
         //
-        $eo->eoRecordStatusHistory($oID, EO_MESSAGE_ORDER_UPDATED . $price_calc_method_message);
-        
+        $eo->eoRecordStatusHistory($oID, EO_MESSAGE_ORDER_UPDATED . $price_calc_method_message . $additional_history);
+
         // -----
         // Need to force update the tax field if the tax is zero.
         // This runs after the shipping tax is added by the above update
@@ -333,6 +355,7 @@ if (isset($_POST['update_products'])) {
             $order->info['tax'] += $tax_value;
         }
     }
+    unset($order->products['products_description']);
     $eo->eoLog (
         PHP_EOL . 'Updated Products in Order:' . PHP_EOL . $eo->eoFormatArray($order->products) . PHP_EOL .
         $eo->eoFormatOrderTotalsForLog($order, 'Updated Products Order Totals:') .
@@ -355,19 +378,20 @@ if (isset($_POST['update_total'])) {
     );
 
     foreach ($_POST['update_total'] as $order_total) {
-        $order_total['value'] = floatval($order_total['value']);
+        $order_total['value'] = (float)$order_total['value'];
         $order_total['text'] = $eo->eoFormatCurrencyValue($order_total['value']);
         $order_total['sort_order'] = $eo->eoGetOrderTotalSortOrder($order_total['code']);
 
         // TODO Special processing for some modules
-        if (zen_not_null($order_total['title']) && $order_total['title'] != ':') {
+        if (!empty($order_total['title']) && $order_total['title'] !== ':') {
+            $order_total['title'] = rtrim($order_total['title']) . ':';
             switch ($order_total['code']) {
                 case 'ot_shipping':
                     $order->info['shipping_method'] = $order_total['title'];
                     $order->info['shipping_module_code'] = $order_total['shipping_module'];
                     break;
                 case 'ot_tax':
-                    if (count($order->products) == 0) {
+                    if (count($order->products) === 0) {
                         $order_total['title'] = '';
                         $order_total['value'] = 0;
                     }
@@ -390,7 +414,7 @@ if (isset($_POST['update_total'])) {
                 case 'ot_coupon':
                     // Default to using the title from the module
                     $coupon = rtrim($order_total['title'], ': ');
-                    $order_total['title'] = (isset($GLOBALS['ot_coupon'])) ? $GLOBALS['ot_coupon']->title : '';
+                    $order_total['title'] = $GLOBALS['ot_coupon']->title ?? '';
 
                     // Look for correctly formatted title
                     preg_match('/([^:]+):([^:]+)/', $coupon, $matches);
@@ -428,7 +452,7 @@ if (isset($_POST['update_total'])) {
 
         $found = false;
         foreach ($order->totals as $key => $total) {
-            if ($total['class'] == $order_total['code']) {
+            if ($total['class'] === $order_total['code']) {
                 // Update the information in the order
                 $order->totals[$key]['title'] = $order_total['title'];
                 $order->totals[$key]['value'] = $order_total['value'];
@@ -438,7 +462,7 @@ if (isset($_POST['update_total'])) {
             }
         }
 
-        if (!$found) {
+        if ($found === false) {
             $order->totals[] = [
                 'class' => $order_total['code'],
                 'title' => $order_total['title'],
@@ -454,7 +478,7 @@ if (isset($_POST['update_total'])) {
 
     // Update the order's order-totals
     eo_update_database_order_totals($oID);
-    
+
     // -----
     // Update the product's weight, too.
     //
@@ -476,7 +500,7 @@ if (isset($_POST['update_total'])) {
     $order_updated = true;
 }
 
-if ($order_updated) {
+if ($order_updated === true) {
     $messageStack->add_session(SUCCESS_ORDER_UPDATED, 'success');
     $zco_notifier->notify('EDIT_ORDER_ORDER_UPDATED_SUCCESS', $oID);
 } else {
