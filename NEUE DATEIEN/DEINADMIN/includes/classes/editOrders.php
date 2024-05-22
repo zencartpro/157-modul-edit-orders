@@ -7,7 +7,7 @@
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: editOrders.php 2024-03-13 20:04:16Z webchills $
+ * @version $Id: editOrders.php 2024-05-22 15:50:16Z webchills $
  */  
  
 zen_define_default('EO_DEBUG_TAXES_ONLY', 'false');  //-Either 'true' or 'false'
@@ -116,6 +116,10 @@ class editOrders extends base
         );
         return ($zone_id_query->EOF) ? 0 : (int)$zone_id_query->fields['zone_id'];
     }
+    
+   
+    
+    
 
     public function getCountryId(string $country_name): int
     {

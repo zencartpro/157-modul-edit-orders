@@ -8,7 +8,7 @@
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: init_eo_config.php 2024-03-13 21:21:16Z webchills $
+ * @version $Id: init_eo_config.php 2024-05-22 18:40:16Z webchills $
  */  
  
 if (!defined('IS_ADMIN_FLAG')) {
@@ -284,7 +284,7 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
                 "INSERT IGNORE INTO " . TABLE_CONFIGURATION . " 
                     (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added, use_function, set_function) 
                  VALUES 
-                    ('Show Edit-Order Icon on Orders\' Listing?', 'EO_SHOW_EDIT_ORDER_ICON', 'Yes', 'Should the edit-icon be shown for each order on the orders\' listing?  Default: <b>Yes</b>', $cgi, 50, now(), NULL, 'zen_cfg_select_option([\'Yes\', \'No\'],'),
+                    ('Show Edit-Order Icon on Orders\' Listing?', 'EO_SHOW_EDIT_ORDER_ICON', 'No', 'Should the edit-icon be shown for each order on the orders\' listing?  Default: <b>No</b>', $cgi, 50, now(), NULL, 'zen_cfg_select_option([\'Yes\', \'No\'],'),
 
                     ('Edit Button Location on Sidebox', 'EO_SHOW_EDIT_ORDER_BUTTON', 'Both', 'At which position(s) should the <em>Edit</em> button be displayed on the currently-selected order\'s sidebox display, relative to the order\'s information?  Default: <b>Both</b>', $cgi, 50, now(), NULL, 'zen_cfg_select_option([\'Both\', \'Top Only\', \'Bottom Only\', \'Neither\'],')"
             ); 
@@ -293,7 +293,7 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
             "REPLACE INTO " . TABLE_CONFIGURATION_LANGUAGE . " 
              (configuration_title, configuration_key, configuration_language_id, configuration_description, last_modified, date_added)
              VALUES 
-            ('Edit Orders Icon in der Bestellübersicht', 'EO_SHOW_EDIT_ORDER_ICON', '43', 'Soll das Edit Orders bearbeiten Icon bei jeder Bestellung in der Bestellübersicht angezeigt werden? Voreinstellung: <b>Yes</b>', now(), now())"
+            ('Edit Orders Icon in der Bestellübersicht', 'EO_SHOW_EDIT_ORDER_ICON', '43', 'Soll das Edit Orders bearbeiten Icon bei jeder Bestellung in der Bestellübersicht angezeigt werden? Voreinstellung: <b>No</b>', now(), now())"
         );
         
         $db->Execute (
@@ -302,6 +302,17 @@ if (EO_VERSION !== EO_CURRENT_VERSION) {
              VALUES 
             ('Edit Orders Button in der Sidebox', 'EO_SHOW_EDIT_ORDER_BUTTON', '43', 'An welcher Position soll die Schaltfläche <em>Bearbeiten</em> in der Seitenanzeige der aktuell ausgewählten Bestellung relativ zu den Informationen der Bestellung angezeigt werden?  Voreinstellung: <b>Both</b>', now(), now())"
         );
+        
+        // -----
+        // v4.7.1 German:
+        // - set countries_name in table countries to german ones
+        // 
+        // -----
+        
+         $db->Execute (        
+        "UPDATE " . TABLE_COUNTRIES . " c  JOIN " . TABLE_COUNTRIES_NAME . " cn ON c.countries_id = cn.countries_id SET c.countries_name = cn.countries_name WHERE cn.language_id = 43;" 
+         );
+        
          //-Fall-through for additional checks
         // -----
         // Way-old versions of EO didn't have the EO_DEBUG_ACTION_LEVEL setting set.

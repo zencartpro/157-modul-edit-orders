@@ -1,13 +1,13 @@
 <?php
 /**
- * @package Edit Orders for Zen Cart German 
+ * @package Edit Orders for Zen Cart 1.5.7h German
  * Edit Orders plugin by Cindy Merkin a.k.a. lat9 (cindy@vinosdefrutastropicales.com)
  * Copyright (c) 2017-2024 Vinos de Frutas Tropicales
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: EditOrdersAdminObserver.php 2024-03-13 20:21:16Z webchills $
+ * @version $Id: EditOrdersAdminObserver.php 2024-05-22 16:28:16Z webchills $
  */
 
 if (!defined('IS_ADMIN_FLAG') || IS_ADMIN_FLAG !== true) {
@@ -252,7 +252,7 @@ class EditOrdersAdminObserver extends base
 
     protected function addEditOrderButton($orders_id)
     {
-        return $this->createEditOrdersLink($orders_id, 'button', IMAGE_EDIT);
+        return $this->createEditOrdersLink($orders_id, 'button', EO_IMAGE_EDIT);
     }
 
     protected function createEditOrdersLink($orders_id, $link_button, $link_text)

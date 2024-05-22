@@ -1,4 +1,4 @@
-Edit Orders 4.7.1 für Zen Cart 1.5.7g/1.5.7h deutsch
+Edit Orders 4.7.1 für Zen Cart 1.5.7h deutsch
 
 Mit dieser Erweiterung können Bestellungen nachträglich bearbeitet werden.
 z.B.
@@ -9,8 +9,7 @@ Attribute eines bestellten Artikels ändern
 Versandart / Versandkosten einer Bestellung ändern
 Aktionskupons/Gutscheine hinzufügen
 
-Diese Version erfordert mindestens Zen Cart 1.5.7g deutsch!
-
+Diese Version ist nur für Zen Cart 1.5.7h deutsch geeignet!
 
 Dieses Modul keinesfalls direkt in einem Liveshop einbauen!
 Erst in einem Testshop die Änderungsfunktionen testen und dann entscheiden, welche davon überhaupt für den Shop sinnvoll verwendbar sind.
