@@ -6,7 +6,7 @@
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: shopping_cart.php for Edit Orders 2025-07-08 13:29:29Z webchills $
+ * @version $Id: shopping_cart.php for Edit Orders 2025-07-09 15:29:29Z webchills $
  */
 
 if (!defined('IS_ADMIN_FLAG')) {
@@ -1119,7 +1119,7 @@ class shoppingCart extends base
             $_SESSION['cart_errors'] .= zen_get_products_name($attribute_price->fields['products_id'], $_SESSION['languages_id'])  . ERROR_PRODUCT_OPTION_SELECTION . '<br>';
             }
             */
-            $total_attributes_price += zen_round($attributes_price, $currencies->get_decimal_places($_SESSION['currency']));
+            $total_attributes_price += $attributes_price;
         }
 
         return $total_attributes_price;

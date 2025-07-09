@@ -4,6 +4,7 @@
 // Copyright (C) 2017-2025, Vinos de Frutas Tropicales.
 //
 // Last updated: EO v5.0.0
+// changed for Zen Cart German 1.5.7j - 2025-07-09
 //
 use Zencart\Plugins\Admin\EditOrders\EditOrdersOtShippingStub;
 
@@ -327,7 +328,7 @@ class EditOrdersAdminObserver extends base
 
     protected function addEditOrderButton(int $orders_id): string
     {
-        return $this->createEditOrdersLink($orders_id, 'button', IMAGE_EDIT);
+        return $this->createEditOrdersLink($orders_id, 'button', EO_ICON_DETAILS);
     }
 
     protected function createEditOrdersLink(int $orders_id, string $link_button, string $link_text): string

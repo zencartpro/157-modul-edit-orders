@@ -26,7 +26,7 @@ define('TEXT_PRODUCT_CHANGES' , 'Artikeländerungen');
 define('TEXT_UPDATED_ORDER' , 'Aktualisierte Bestellung');
 define('TEXT_VALUE_CHANGED' , '%1$s wurde von %2$s zu %3$s geändert'); //- Verwendet von der AJAX-Verarbeitung und für OSH-Datensätze
 define('TEXT_VALUE_UNKNOWN' , 'Unbekannt [%s]'); //- %s wird mit der unbekannten 'Entität' ausgefüllt
-define('TEXT_SHIPPING_TAX_RATE_INITIALIZED' , 'Der Versandsteuersatz für die Bestellung wurde auf %s initialisiert.');
+define('TEXT_SHIPPING_TAX_RATE_INITIALIZED' , 'Der Versandkostensteuersatz für die Bestellung wurde auf %s initialisiert.');
 // Table Headings
 define('TABLE_HEADING_STATUS_HISTORY', 'Bestellstatusverlauf &amp; Kommentare');
 define('TABLE_HEADING_COMMENTS', 'Kommentare');
@@ -72,12 +72,9 @@ define('ENTRY_CREDIT_CARD_NUMBER' , 'Kreditkartennummer:');
 define('ENTRY_CREDIT_CARD_EXPIRES' , 'Kreditkarte läuft ab:');
 define('ENTRY_CURRENCY_VALUE' , 'Währungswert (%s):'); //- %s wird mit dem Währungscode der Bestellung ausgefüllt
 define('ENTRY_IS_GUEST_ORDER' , 'Gastbestellung?');
-define('ENTRY_PAYMENT_METHOD' , 'Zahlungsmethode:');
+define('ENTRY_PAYMENT_METHOD' , 'Zahlungsart:');
 define('ENTRY_PAYMENT_MODULE' , 'Zahlungsmodul-Code:');
 define('ENTRY_PURCHASE_ORDER_NUMBER' , 'Bestellnummer:');
-define('ENTRY_IS_WHOLESALE' , 'Großhandelsbestellung?');
-define('ENTRY_CUSTOMER_WHOLESALE' , 'Großhandelskunde?');
-define('ENTRY_CUSTOMER_TAX_EXEMPT' , 'Steuerbefreiter Kunde?');
 define('TEXT_PANEL_HEADER_ADDL_INFO' , 'Zusätzliche Informationen');
 // Order Status Entries
 define('BUTTON_ADD_COMMENT' , 'Neuer Kommentar');
@@ -87,7 +84,7 @@ define('BUTTON_REVIEW_COMMENT' , 'Kommentar überprüfen');
 define('ENTRY_STATUS' , 'Status:');
 define('ENTRY_CURRENT_STATUS' , 'Aktueller Status: ');
 define('ENTRY_NOTIFY_CUSTOMER' , 'Kunden benachrichtigen:');
-define('ENTRY_NOTIFY_COMMENTS' , 'Kommentare anhängen:');
+define('ENTRY_NOTIFY_COMMENTS' , 'Kommentare');
 define('TEXT_COMMENT_ADDED' , 'Kommentar zur Bestellung');
 // Email Entries
 define('EMAIL_SEPARATOR' , '------------------------------------------------------');
@@ -122,7 +119,7 @@ define('TEXT_CHOOSE_SHIPPING_MODULE' , 'Wählen Sie ein Versandmodul: ');
 define('TEXT_COMMAND_TO_DELETE_CURRENT_COUPON_FROM_ORDER' , 'REMOVE'); //- IMMER in Großbuchstaben!
 define('TEXT_COUPON_LINK_TITLE' , 'siehe Coupon-Bedingungen');
 define('TEXT_LABEL_COUPON_CODE' , 'Coupon-Code:');
-define('TEXT_LABEL_METHOD' , 'Zahlungsmethode (erforderlich):');
+define('TEXT_LABEL_METHOD' , 'Versandart (erforderlich):');
 define('TEXT_LABEL_MODULE' , 'Modul:');
 define('TEXT_LABEL_TITLE' , 'Titel:');
 define('TEXT_LABEL_VALUE' , 'Wert:');
