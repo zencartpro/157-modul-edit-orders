@@ -12,4 +12,5 @@ z.B.
 * Preis eines bestellen Artikels ändern
 * Attribute eines bestellten Artikels ändern
 * Versandart / Versandkosten einer Bestellung ändern
-* Aktionskupons/Gutscheine hinzufügen
+* Zahlungsart einer Bestellung ändern
+* Gutschrift oder Aufpreis hinzufügen
