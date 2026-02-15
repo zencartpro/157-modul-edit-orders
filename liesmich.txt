@@ -1,4 +1,4 @@
-Edit Orders 5.0.2 für Zen Cart 1.5.7j deutsch
+Edit Orders 5.0.3 für Zen Cart 1.5.7j deutsch
 
 Mit dieser Erweiterung können Bestellungen nachträglich bearbeitet werden.
 z.B.
@@ -10,6 +10,9 @@ Versandart / Versandkosten einer Bestellung ändern
 Aktionskupons/Gutscheine hinzufügen
 
 Diese Version ist nur für Zen Cart 1.5.7j deutsch geeignet!
+Voraussetzung ist das Plugin Manager Update 1.2.0:
+https://www.zen-cart-pro.at/knowledgebase/plugin-manager-update-fuer-zen-cart-1-5-7j-deutsch/
+Stellen Sie sicher, dass Sie Ihren 1.5.7j Shop mit dem Plugin Manager Update aktualisiert haben, bevor Sie Edit Orders installieren!
 
 Dieses Modul keinesfalls direkt in einem Liveshop einbauen!
 Erst in einem Testshop die Änderungsfunktionen testen und dann entscheiden, welche davon überhaupt für den Shop sinnvoll verwendbar sind.
@@ -20,13 +23,13 @@ Wenn eine Bestellung wie bisher ganz normal bearbeitet werden soll (z.B. um sie 
 Wenn Sie nur die Adressdaten einer Bestellung ändern wollen, dann ebenfalls nicht Edit Orders verwenden, sondern die ganz normale Adresskorrektur!
 "Mit Edit Orders Bearbeiten" nur dann verwenden, wenn an der Bestellung wirklich etwas grundlegend geändert werden soll!
 
-Die Steuerberechnung und andere Funktionen wurden mit Version 5.0.2 gegenüber früheren Versionen völlig neu gestaltet und extrem verbessert.
+Die Steuerberechnung und andere Funktionen wurden mit Version 5.0.3 gegenüber früheren Versionen völlig neu gestaltet und extrem verbessert.
 Dennoch:
 Die besten Ergebnisse im Hinblick auf eine korrekte Steuerausweisung werden dann erreicht, wenn es keine unterschiedlichen Steuersätze bei den Artikeln gibt und wenn es sich um einen B2B Shop handelt (Shop verwendet Nettopreise)
 Eine 100% korrekte Steuerausweisung bei geänderten Bestellungen in anderen Szenarien kann nicht garantiert werden, daher dieses Modul unbedingt erst in einem Testshop auf Eignung für den eigenen Shop überprüfen!
-Version 5.0.2 sollte aber in den meisten Szenarien korrekte Steuerausweisung nach Bestelländerung liefern.
+Version 5.0.3 sollte aber in den meisten Szenarien korrekte Steuerausweisung nach Bestelländerung liefern.
 
-Seit Version 5.0.2 ist dieses Modul als Encapsulated Plugin konzipiert und steht unter Module > Plugin Manager zur Installation bereit.
+Seit Version 5.0.3 ist dieses Modul als Encapsulated Plugin konzipiert und steht unter Module > Plugin Manager zur Installation bereit.
 
 
 INSTALLATION

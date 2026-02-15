@@ -6,7 +6,7 @@
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: shopping_cart.php for Edit Orders 2025-07-09 15:29:29Z webchills $
+ * @version $Id: shopping_cart.php for Edit Orders 2025-12-31 10:29:29Z webchills $
  */
 
 if (!defined('IS_ADMIN_FLAG')) {

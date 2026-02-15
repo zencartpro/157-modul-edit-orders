@@ -19,7 +19,7 @@
 // $address_notifier . The notification to be raised at the end of EO's standard address elements.
 //
 $modal_id = $address_name . '-modal';
-$google_map_address = urlencode($address_fields['street_address'] . ',' . $address_fields['city'] . ',' . $address_fields['state'] . ',' . $address_fields['postcode']);
+$google_map_address = urlencode($address_fields['street_address']??'' . ',' . $address_fields['city']??'' . ',' . $address_fields['state']??'' . ',' . $address_fields['postcode']);
 $google_map_link = 'https://maps.google.com/maps/search/?api=1&amp;query=' . $google_map_address;
 
 // -----
@@ -127,7 +127,7 @@ $tooltip_parameters = 'class="fa-solid fa-circle-info fa-lg" data-toggle="toolti
                                 $max_company_length . ' id="' . $address_name . '_company" class="form-control"'
                             ) ?>
                             <span class="input-group-addon">
-                                <i <?= $tooltip_parameters ?> title="<?= sprintf(TEXT_ORIGINAL_VALUE, $address_fields['company']) ?>"></i>
+                                <i <?= $tooltip_parameters ?> title="<?= sprintf(TEXT_ORIGINAL_VALUE, $address_fields['company']??'') ?>"></i>
                             </span>
                         </div>
                     </div>
@@ -233,6 +233,9 @@ if (ACCOUNT_STATE === 'true') {
 <?php
 }
 ?>
+<?php
+if (isset($address_fields['city'])) {
+?>
                 <div class="form-group">
                     <?= zen_draw_label(ENTRY_CUSTOMER_CITY, $address_name . '_city', 'class="col-sm-3 control-label"') ?>
                     <div class="col-sm-9">
@@ -248,7 +251,12 @@ if (ACCOUNT_STATE === 'true') {
                         </div>
                     </div>
                 </div>
-
+                <?php
+}
+?>
+<?php
+if (isset($address_fields['postcode'])) {
+?>
                 <div class="form-group">
                     <?= zen_draw_label(ENTRY_CUSTOMER_POSTCODE, $address_name . '_postcode', 'class="col-sm-3 control-label"') ?>
                     <div class="col-sm-9">
@@ -264,6 +272,9 @@ if (ACCOUNT_STATE === 'true') {
                         </div>
                     </div>
                 </div>
+                <?php
+}
+?>
 <?php
 if (isset($address_fields['telephone'])) {
 ?>
