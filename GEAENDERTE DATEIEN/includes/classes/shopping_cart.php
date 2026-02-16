@@ -171,7 +171,7 @@ class shoppingCart extends base
             $this->contents[$uprid] = ['qty' => $next_product['customers_basket_quantity']];
 
             // set contents in sort order
-            $order_by = ' ORDER BY LPAD(products_options_sort_order,11,"0")';
+            $order_by = " ORDER BY LPAD(products_options_sort_order,11,'0')";
 
             $attributes = $db->Execute(
                 "SELECT products_options_id, products_options_value_id, products_options_value_text
@@ -324,8 +324,8 @@ class shoppingCart extends base
               // Validate max-length of TEXT attribute
               $check = $db->Execute ("SELECT products_options_length FROM " . TABLE_PRODUCTS_OPTIONS . " WHERE products_options_id = " . (int)$option . " LIMIT 1");
               if (!$check->EOF) {
-                if (strlen ($attr_value) > $check->fields['products_options_length']) {
-                  $attr_value = zen_trunc_string ($attr_value, $check->fields['products_options_length'], '');
+                                if (strlen($attr_value) > (int)$check->fields['products_options_length']) {
+                                    $attr_value = zen_trunc_string($attr_value, (int)$check->fields['products_options_length'], '');
                 }
                                 $this->contents[$uprid]['attributes_values'][$option] = $attr_value;
                             }
@@ -654,7 +654,6 @@ class shoppingCart extends base
         $this->total = 0;
         $this->weight = 0;
         $this->total_before_discounts = 0;
-        $decimalPlaces = $currencies->get_decimal_places($_SESSION['currency']);
         // shipping adjustment
         $this->free_shipping_item = 0;
         $this->free_shipping_price = 0;
