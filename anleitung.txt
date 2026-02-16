@@ -104,9 +104,17 @@ Laden Sie den Ordner zc_plugins im Ordner NEUE DATEIEN in Ihr Shoverzeichnis hoc
 
 2)
 Im Ordner GEAENDERTE DATEIEN finden Sie die Musterdateien der von diesem Modul geänderten Dateien.
+Folgende Dateien werden von diesem Modul geändert:
+includes/classes/order.php
+includes/classes/order_total.php
+includes/classes/payment.php
+includes/classes/shipping.php
+includes/classes/shopping_cart.php
+includes/modules/order_total/ot_tax.php
+
 Sollten Sie bereits einmal Änderungen an diesen Dateien vorgenommen haben (z.B. durch den Einbau anderer Erweiterungen), dann laden Sie diese Dateien keinesfalls einfach so hoch.
 Stattdessen vergleichen Sie sie mit den entsprechenden Dateien in Ihrem Shop und nehmen die Änderungen manuell per WinMerge oder BeyondCompare vor.
-Insbesondere die includes/classes/order.php wird von vielen anderen Erweiterungen geändert und sollte besonders genau manuell geprüft werden!
+Insbesondere die includes/classes/order.php und includes/classes/shopping_cart.php werden von vielen anderen Erweiterungen geändert und sollten besonders genau manuell geprüft werden!
 
 3)
 Nun können Sie in der Shopadministration unter Module > Plugin Manager Edit Orders installieren
