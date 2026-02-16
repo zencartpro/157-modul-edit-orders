@@ -1,0 +1,152 @@
+Edit Orders 5.0.3 für Zen Cart 1.5.7j deutsch
+
+Mit dieser Erweiterung können Bestellungen nachträglich bearbeitet werden.
+z.B.
+zusätzliche Artikel zu einer Bestellung hinzufügen
+Anzahl eines bestellen Artikels ändern
+Preis eines bestellten Artikels ändern
+Attribute eines bestellten Artikels ändern
+Versandart / Versandkosten einer Bestellung ändern
+Einmalige Gebühr oder einmaligen Rabatt hinzufügen
+
+Diese Version ist nur für Zen Cart 1.5.7j deutsch geeignet!
+Voraussetzung ist das Plugin Manager Update 1.2.0:
+https://www.zen-cart-pro.at/knowledgebase/plugin-manager-update-fuer-zen-cart-1-5-7j-deutsch/
+Stellen Sie sicher, dass Sie Ihren 1.5.7j Shop mit dem Plugin Manager Update aktualisiert haben, bevor Sie Edit Orders installieren!
+
+Dieses Modul keinesfalls direkt in einem Liveshop einbauen!
+Erst in einem Testshop die Änderungsfunktionen testen und dann entscheiden, welche davon überhaupt für den Shop sinnvoll verwendbar sind.
+
+Generell:
+Nach Integration dieses Moduls steht bei den Bestellungen zusätzlich zum "normalen" Button "Details" ein neuer Button "Mit Edit Orders Bearbeiten" zur Verfügung.
+Wenn eine Bestellung wie bisher ganz normal bearbeitet werden soll (z.B. um sie auf versendet zu stellen), dann immer den normalen Button Details verwenden.
+Wenn Sie nur die Adressdaten einer Bestellung ändern wollen, dann ebenfalls nicht Edit Orders verwenden, sondern die ganz normale Adresskorrektur!
+"Mit Edit Orders Bearbeiten" nur dann verwenden, wenn an der Bestellung wirklich etwas grundlegend geändert werden soll!
+
+Die Steuerberechnung und andere Funktionen wurden mit Version 5.0.3 gegenüber früheren Versionen völlig neu gestaltet und extrem verbessert.
+Dennoch:
+Die besten Ergebnisse im Hinblick auf eine korrekte Steuerausweisung werden dann erreicht, wenn es keine unterschiedlichen Steuersätze bei den Artikeln gibt und wenn es sich um einen B2B Shop handelt (Shop verwendet Nettopreise)
+Eine 100% korrekte Steuerausweisung bei geänderten Bestellungen in anderen Szenarien kann nicht garantiert werden, daher dieses Modul unbedingt erst in einem Testshop auf Eignung für den eigenen Shop überprüfen!
+Version 5.0.3 sollte aber in den meisten Szenarien korrekte Steuerausweisung nach Bestelländerung liefern.
+
+Seit Version 5.0.3 ist dieses Modul als Encapsulated Plugin konzipiert und steht unter Module > Plugin Manager zur Installation bereit.
+
+
+INSTALLATION
+
+Für den Einbau dieses Moduls sollten Sie über folgende Werkzeuge verfügen:
+
+1) Ein guter Texteditor
+Damit ist nicht das in Windows enthaltene Notepad oder Microsoft Word gemeint.
+Sie benötigen einen Texteditor, der utf-8 versteht und auch im Format utf-8 ohne BOM abspeichern kann.
+Meine Empfehlung: UltraEdit (kostenlose 30 Tage Testversion verfügbar)
+Ebenfalls gut geeignet ist der kostenlose Texteditor Notepad++
+
+2) Ein Tool zum Vergleichen von Dateien
+Bei der Installation dieses Moduls ist es erforderlich, dass Sie den Inhalt einer Ihrer bestehenden Zen Cart Dateien mit dem Inhalt der neuen Moduldatei vergleichen und die Änderungen zusammenführen ("mergen").
+Meine Empfehlung: BeyondCompare (kostenlose 30 Tage Testversion verfügbar)
+Ebenfalls gut geeignet ist das kostenlose Programm WinMerge
+
+Empfehlung:
+Dieses Modul erst in einem Testsystem einbauen und dort konfigurieren/testen und endgültig an die eigenen Wünsche anpassen. Erst dann in einem Liveshop einsetzen! Sichern Sie unbedingt alle Dateien Ihres Shops per FTP und sichern Sie die Datenbank mit phpMyAdmin oder anderen geeigneten Tools!
+
+HINWEIS FÜR UPDATES VON ÄLTEREN EDEIT ORDERS VERSIONEN:
+
+Falls Sie in Ihrem Shop bereits eine ältere Edit Orders Version verwenden, dann entfernen Sie diese komplett, bevor Sie Version 5.0.3 installieren!
+Entfernen Sie die folgenden Dateien falls vorhanden aus Ihrer Shopinstallation:
+includes/modules/order_total/ot_misc_cost.php
+includes/modules/order_total/ot_onetime_discount.php
+includes/languages/german/modules/order_total/ot_misc_cost.php
+includes/languages/german/modules/order_total/ot_onetime_discount.php
+DEINADMIN/edit_orders.php
+tbd
+tbd
+
+Danach kopieren Sie den Inhalt der uninstall.sql im Ordner UNINSTALL_OLD_VERSION ins Eingabefeld unter Tools > SQL Patches installieren.
+Damit werden auch die alten Edit Orders Konfigurationseinstellungen datenbankseitig entfernt.
+
+Nun können Sie mit der Neuinstallation weitermachen:
+
+NEUINSTALLATION
+
+Dieses Modul erst in einem Testsystem einbauen und dort konfigurieren/testen und endgültig an die eigenen Wünsche anpassen. Erst dann in einem Liveshop einsetzen! Sichern Sie unbedingt alle Dateien Ihres Shops per FTP und sichern Sie die Datenbank mit phpMyAdmin oder anderen geeigneten Tools!
+WICHTIG
+Vor dem Einbau dieser Änderungen:
+BACKUP von Shop und Datenbank machen!
+Keine Haftung, Verwendung auf eigene Gefahr!
+BACKUP gemacht? Ok, dann weiterlesen...
+
+Die Installation erfolgt in folgenden Schritten. Halten Sie diesen Ablauf ein.
+
+1)
+Laden Sie den Ordner zc_plugins im Ordner NEUE DATEIEN in Ihr Shoverzeichnis hoch, dabei werden keinerlei bestehende Dateien überschrieben.
+
+2)
+Im Ordner GEAENDERTE DATEIEN finden Sie die Musterdateien der von diesem Modul geänderten Dateien.
+Sollten Sie bereits einmal Änderungen an diesen Dateien vorgenommen haben (z.B. durch den Einbau anderer Erweiterungen), dann laden Sie diese Dateien keinesfalls einfach so hoch.
+Stattdessen vergleichen Sie sie mit den entsprechenden Dateien in Ihrem Shop und nehmen die Änderungen manuell per WinMerge oder BeyondCompare vor.
+Insbesondere die includes/classes/order.php wird von vielen anderen Erweiterungen geändert und sollte besonders genau manuell geprüft werden!
+
+3)
+Nun können Sie in der Shopadministration unter Module > Plugin Manager Edit Orders installieren
+
+4)
+Unter Konfiguration ist nun der neue Menüpunkt Edit Orders vorhanden, hier können Sie einige grundlegende Einstellungen vornehmen. Um sich mit der Funktionalität vertraut zu machen, am besten erstmal die Voreinstellungen so lassen wie sie sind.
+
+5)
+WICHTIG:
+Dieses Modul ändert die Funktionalität des bei der enthaltenen Steuer angezeigten Textes.
+Dieser Text lautet normalerweise "enthaltene Mwst." und ist in der deutschen Zen Cart Version in der Sprachdatei includes/languages/german/modules/order_total/ot_tax.php hinterlegt.
+Und daher lautet die Beschreibung unter Länder & Steuern > Steuersätze beim jeweiligen Steuersatz nur z.B. 20% oder 19% oder 7%
+Wenn Sie Edit Orders verwenden, dann wird der Text aus der Sprachdatei nicht mehr ausgelesen, Sie müssen ihn daher in die Beschreibung des Steuersatzes einfügen.
+Ändern Sie also in der Administration bei den verschiedenen Steuersätzen von z.B
+20%
+auf
+enthaltene MwSt. 20%
+
+6)
+OPTIONAL
+Sie können mir Edit Orders auch eine neue Gebühr oder einen neuen einmaligen Rabatt zu einer Bestellung hinzufügen.
+Wenn Sie diese Funktionalität nutzen wollen, dann werden 2 neue order_total Module benötigt.
+Laden Sie die Dateien/Ordner aus dem Ordner OPTIONAL/NEUE DATEIEN in der vorgegebenen Struktur in Ihr Shopverzeichnis hoch.
+Dabei werden keine bestehenden Dateien überschrieben.
+Unter Module > Zusammenfassung sind nun die beiden neuen Module Diverse Kosten (ot_misc_cost) und Einmaliger Rabatt (ot_onetime_discount) vorhanden.
+Installieren Sie sie und konfigurieren Sie sie nach Ihren Wünschen. Wenn Sie in Edit Orders später den Namen der Kosten oder des Rabatts manuell überschreiben wollen (sinnvoll!), dann aktivieren Sie die entsprechende Einstellung.
+Nach Installation und Aktivierung der beiden Module steht die entsprechende Funktionalität in Edit Orders zur Verfügung.
+
+7)
+VERWENDUNG
+In der Bestellübersicht ist nun bei einer Bestellung der Button "Mit EDITORDERS bearbeiten" vorhanden.
+Damit öffnet sich die Edit Orders Maske
+Mit den Bearbeiten Buttons nehmen Sie die gewünschte Änderung vor.
+Und bestätigen danach immer mit tem roten Aktulisieren Button 
+Eine detaillierte Beschreibung zur Bedienung mit Screenshots der verschiedenen Masken finden Sie auf englisch hier:
+https://github.com/lat9/edit_orders/wiki/Using-Edit-Orders
+
+Um das Ändern einer Bestellung zu testen, verwenden Sie dazu eine Bestellung, die NACH der Installation von Edit Orders erfolgt ist.
+Also am besten erst eine Testbestellung im Shop machen und die dann mit Edit Orders bearbeiten.
+
+
+DEINSTALLATION
+
+Um das Modul komplett zu entfernen:
+
+1)
+Module > Plugin Manager
+Edit Orders markieren und Deinstallieren, Abfrage bestätigen
+
+2)
+Module > Zusammenfassung
+Die beiden Module ot_onetime_discount und ot_misc_cost deinstallieren
+
+3)
+Ale von diesem Modul neu hinzugefügten Datein vom Server löschen
+
+4)
+Alle von diesem Modul geänderten Dateien mit den Dateien Ihres Backups ersetzen
+
+
+WEITERE INFORMATIONEN
+
+Detaillierte weitere Informationen zu diesem Modul auf englisch hier:
+https://github.com/lat9/edit_orders/wiki/
