@@ -59,8 +59,24 @@ includes/modules/order_total/ot_onetime_discount.php
 includes/languages/german/modules/order_total/ot_misc_cost.php
 includes/languages/german/modules/order_total/ot_onetime_discount.php
 DEINADMIN/edit_orders.php
-tbd
-tbd
+DEINADMIN/includes/edit_orders.css
+DEINADMIN/includes/auto_loaders/config.eo.php
+DEINADMIN/includes/auto_loaders/config.eo_cautions.php
+DEINADMIN/includes/classes/attributes.php
+DEINADMIN/includes/classes/editOrders.php
+DEINADMIN/includes/classes/EditOrdersOtShippingStub.php
+DEINADMIN/includes/classes/EditOrders/EditOrdersQueryCache.php
+DEINADMIN/includes/classes/mock_cart.php
+DEINADMIN/includes/classes/observers/EditOrdersAdminObserver.php
+DEINADMIN/includes/css/edit_orders.css
+DEINADMIN/includes/extra_datafiles/edit_orders_defines.php
+DEINADMIN/includes/extra_datafiles/eo_sanitization.php
+DEINADMIN/includes/functions/extra_functions/edit_orders_functions.php
+DEINADMIN/includes/init_includes/edit_orders_cautions.php
+DEINADMIN/includes/init_includes/init_eo_config.php
+DEINADMIN/includes/languages/german/edit_orders.php
+DEINADMIN/includes/languages/german/extra_definitions/edit_orders.php
+DEINADMIN/includes/modules/edit_orders (gesamter Ordner)
 
 Danach kopieren Sie den Inhalt der uninstall.sql im Ordner UNINSTALL_OLD_VERSION ins Eingabefeld unter Tools > SQL Patches installieren.
 Damit werden auch die alten Edit Orders Konfigurationseinstellungen datenbankseitig entfernt.
@@ -68,6 +84,11 @@ Damit werden auch die alten Edit Orders Konfigurationseinstellungen datenbanksei
 Nun können Sie mit der Neuinstallation weitermachen:
 
 NEUINSTALLATION
+
+Diese Version ist nur für Zen Cart 1.5.7j deutsch geeignet!
+Voraussetzung ist das Plugin Manager Update 1.2.0:
+https://www.zen-cart-pro.at/knowledgebase/plugin-manager-update-fuer-zen-cart-1-5-7j-deutsch/
+Stellen Sie sicher, dass Sie Ihren 1.5.7j Shop mit dem Plugin Manager Update aktualisiert haben, bevor Sie Edit Orders installieren!
 
 Dieses Modul erst in einem Testsystem einbauen und dort konfigurieren/testen und endgültig an die eigenen Wünsche anpassen. Erst dann in einem Liveshop einsetzen! Sichern Sie unbedingt alle Dateien Ihres Shops per FTP und sichern Sie die Datenbank mit phpMyAdmin oder anderen geeigneten Tools!
 WICHTIG
@@ -140,7 +161,7 @@ Module > Zusammenfassung
 Die beiden Module ot_onetime_discount und ot_misc_cost deinstallieren
 
 3)
-Ale von diesem Modul neu hinzugefügten Datein vom Server löschen
+Alle von diesem Modul neu hinzugefügten Datein vom Server löschen
 
 4)
 Alle von diesem Modul geänderten Dateien mit den Dateien Ihres Backups ersetzen
