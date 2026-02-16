@@ -13,7 +13,7 @@ z.B.
 * Preis eines bestellen Artikels ändern
 * Attribute eines bestellten Artikels ändern
 * Versandart / Versandkosten einer Bestellung ändern
-* Aktionskupons/Gutscheine hinzufügen
+* einmalige Gebühr oder einmaligen Rabatt hinzufügen
 
 ## Voraussetzungen:
 * Zen Cart 1.5.7j deutsche Version
