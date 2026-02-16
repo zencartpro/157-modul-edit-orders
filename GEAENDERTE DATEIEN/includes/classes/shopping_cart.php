@@ -6,7 +6,7 @@
  * Zen Cart German Version - www.zen-cart-pro.at
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: shopping_cart.php for Edit Orders 2025-12-31 10:29:29Z webchills $
+ * @version $Id: shopping_cart.php for Edit Orders 2026-02-16 20:29:29Z webchills $
  */
 
 if (!defined('IS_ADMIN_FLAG')) {
@@ -931,7 +931,7 @@ class shoppingCart extends base
                     }
                     ////////////////////////////////////////////////
 
-                    $attributesTotal += zen_round($productTotal, $decimalPlaces);
+                    $attributesTotal += $productTotal;
                 } // eof foreach
             } // attributes price
             $productTotal = $savedProductTotal + $attributesTotal;
@@ -987,11 +987,11 @@ class shoppingCart extends base
                   }
             */
 
-            $this->total += zen_round(zen_add_tax($productTotal, $products_tax), $decimalPlaces) * $qty;
-            $this->total += zen_round(zen_add_tax($totalOnetimeCharge, $products_tax), $decimalPlaces);
-            $this->free_shipping_price += zen_round(zen_add_tax($freeShippingTotal, $products_tax), $decimalPlaces) * $qty;
+            $this->total += zen_add_tax($productTotal, $products_tax) * $qty;
+            $this->total += zen_add_tax($totalOnetimeCharge, $products_tax);
+            $this->free_shipping_price += zen_add_tax($freeShippingTotal, $products_tax) * $qty;
             if ($is_free_shipping === true) {
-                $this->free_shipping_price += zen_round(zen_add_tax($totalOnetimeCharge, $products_tax), $decimalPlaces);
+                $this->free_shipping_price += zen_add_tax($totalOnetimeCharge, $products_tax);
             }
 
 // ******* WARNING ADD ONE TIME ATTRIBUTES, PRICE FACTOR
